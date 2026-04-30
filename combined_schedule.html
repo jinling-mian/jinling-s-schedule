@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1200, initial-scale=1.0, user-scalable=yes" />
+<title>精讲课拍摄排班表 · S5 + S6</title>
+<meta name="description" content="精讲课 S5 + S6 监棚老师排班表，含 W5 ~ W48 完整时间轴、近 3 个月日历预览、6 位老师个人对应周。" />
+<meta property="og:title" content="精讲课拍摄排班表 · S5 + S6" />
+<meta property="og:description" content="W5 ~ W48 完整排班 · 含日历视图与个人汇总" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    font-family: "PingFang SC", "Helvetica Neue", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: #ffffff;
+    color: #1a2b4a;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page {
+    width: 1200px;
+    margin: 0 auto;
+    padding: 44px 48px 48px;
+    background: #ffffff;
+  }
+
+  /* ===== Header ===== */
+  .header {
+    text-align: center;
+    padding-bottom: 22px;
+    border-bottom: 2px dashed #d8dfec;
+    margin-bottom: 28px;
+  }
+  .title {
+    font-size: 32px;
+    font-weight: 800;
+    color: #1a2b4a;
+    letter-spacing: 2px;
+  }
+  .subtitle {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #8a94a6;
+    letter-spacing: 1px;
+  }
+
+  /* ===== Roles - S5 + S6 dual section ===== */
+  .level-block {
+    margin-bottom: 24px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 2px solid #e3e8f1;
+  }
+  .level-header {
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 1px;
+  }
+  .level-block.s5 .level-header { background: linear-gradient(90deg, #4f7df0 0%, #6f9cff 100%); }
+  .level-block.s6 .level-header { background: linear-gradient(90deg, #8b5cf6 0%, #a78bfa 100%); }
+  .level-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  .role-card {
+    padding: 16px 20px;
+    background: #fafbfd;
+  }
+  .role-card.fixed { background: #fffaf0; border-right: 1px solid #e3e8f1; }
+  .role-card .role-tag {
+    display: inline-block;
+    padding: 2px 10px;
+    background: #ff9800;
+    color: #fff;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-right: 8px;
+  }
+  .role-card.rotating .role-tag { background: #4f7df0; }
+  .level-block.s6 .role-card.rotating .role-tag { background: #8b5cf6; }
+  .role-card .role-people {
+    margin: 6px 0 8px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1a2b4a;
+  }
+  .role-card .duties {
+    font-size: 13px;
+    line-height: 1.7;
+    color: #4a5568;
+  }
+
+  /* ===== Notes ===== */
+  .notes {
+    margin-bottom: 26px;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, #f0f4ff 0%, #fff7e6 100%);
+    border-radius: 10px;
+    font-size: 14px;
+    line-height: 1.85;
+    color: #2c3e50;
+  }
+  .notes b { color: #c4530a; }
+
+  /* ===== W5 双棚提醒 ===== */
+  .w5-notice {
+    margin-bottom: 26px;
+    border: 2px solid #ffc24d;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .w5-notice-header {
+    background: linear-gradient(90deg, #ff9800 0%, #ffc24d 100%);
+    color: #fff;
+    padding: 10px 18px;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 1px;
+  }
+  .w5-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: #fffaf0;
+  }
+  .w5-card {
+    padding: 16px 20px;
+  }
+  .w5-card.s6 { border-right: 1px dashed #ffc24d; }
+  .w5-card .level-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .w5-card.s5 .level-badge { background: #4f7df0; }
+  .w5-card.s6 .level-badge { background: #8b5cf6; }
+  .w5-card .date-line {
+    font-size: 17px;
+    font-weight: 800;
+    color: #6b4a14;
+    margin-bottom: 10px;
+  }
+  .w5-card .row {
+    font-size: 13.5px;
+    line-height: 1.85;
+    color: #4a5568;
+  }
+  .w5-card .row b { color: #1a2b4a; }
+  .w5-card .target {
+    margin-top: 8px;
+    padding: 6px 12px;
+    background: #ff9800;
+    color: #fff;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-weight: 700;
+    display: inline-block;
+  }
+  .w5-card.s6 .target { background: #8b5cf6; }
+
+  /* ===== 3 个月小日历 ===== */
+  .calendar-section {
+    margin-bottom: 30px;
+  }
+  .section-title {
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 800;
+    color: #fff;
+    background: linear-gradient(90deg, #4f7df0 0%, #6f9cff 100%);
+    padding: 7px 18px;
+    border-radius: 8px 8px 8px 0;
+    margin-bottom: 14px;
+    letter-spacing: 0.5px;
+  }
+  .section-title.purple { background: linear-gradient(90deg, #8b5cf6 0%, #a78bfa 100%); }
+  .section-title.green { background: linear-gradient(90deg, #2bb673 0%, #4dd396 100%); }
+  .calendar-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+  }
+  .month {
+    background: #fafbfd;
+    border-radius: 10px;
+    padding: 12px;
+    border: 1px solid #e3e8f1;
+  }
+  .month-title {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 800;
+    color: #1a2b4a;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #e3e8f1;
+  }
+  .cal-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+  .cal-table th {
+    background: #1a2b4a;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 0;
+    text-align: center;
+  }
+  .cal-table td {
+    height: 50px;
+    vertical-align: top;
+    text-align: center;
+    border: 1px solid #eef1f7;
+    padding: 2px;
+    font-size: 11px;
+    position: relative;
+  }
+  .cal-table td.empty { background: #f9fafd; }
+  .cal-table .day {
+    font-size: 12px;
+    color: #4a5568;
+    font-weight: 600;
+  }
+  .cal-table td.shoot { background: #fff7e6; }
+  .cal-table td.s5-day { background: #eaf1ff; border: 2px solid #4f7df0; }
+  .cal-table td.s6-day { background: #f3edff; border: 2px solid #8b5cf6; }
+  .cal-table td.deadline-day { background: #fff1e6; }
+  .cal-table .cal-tag {
+    display: block;
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-top: 2px;
+  }
+  .cal-table .cal-tag.s5 { color: #2c5cdc; }
+  .cal-table .cal-tag.s6 { color: #8b5cf6; }
+  .cal-table .cal-tag.deadline { color: #c4530a; font-size: 9px; }
+
+  /* ===== 主时间轴表 ===== */
+  .timeline-section {
+    margin-bottom: 30px;
+  }
+  table.timeline {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(26,43,74,0.06);
+  }
+  table.timeline thead th {
+    background: #1a2b4a;
+    color: #fff;
+    padding: 12px 10px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  table.timeline td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #eef1f7;
+    font-size: 13px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  table.timeline .u-cell {
+    background: #f4f6fb;
+    font-weight: 800;
+    color: #1a2b4a;
+    width: 60px;
+  }
+  table.timeline .u-cell.empty { background: #fafbfd; }
+  table.timeline .w-cell {
+    font-weight: 800;
+    color: #1a2b4a;
+    width: 60px;
+  }
+  table.timeline .window-cell {
+    color: #4a5568;
+    font-size: 12.5px;
+    width: 220px;
+  }
+  table.timeline .deadline-cell {
+    width: 130px;
+    color: #1a2b4a;
+  }
+  table.timeline .deadline-cell .grace {
+    display: block;
+    font-size: 10.5px;
+    color: #8a94a6;
+    margin-top: 2px;
+  }
+  table.timeline .cell {
+    font-weight: 700;
+  }
+  table.timeline .cell .name {
+    font-size: 14px;
+    font-weight: 800;
+  }
+  table.timeline .cell.has-time {
+    padding-bottom: 12px;
+  }
+  table.timeline .cell .time-tag {
+    display: block;
+    margin-top: 4px;
+    padding: 2px 6px;
+    background: #ff9800;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+  }
+  table.timeline tr.month-sep td {
+    background: #1a2b4a !important;
+    color: #ffd166 !important;
+    font-weight: 800;
+    text-align: left;
+    padding: 6px 16px;
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+
+  /* ===== 颜色（生成） ===== */
+  .cell.c-gao { background: linear-gradient(180deg, #fff1e6 0%, #ffe1c8 100%) !important; }
+  .cell.c-gao .name { color: #ff6b1a; }
+  .sum-card.c-gao-sum .sum-name { color: #ff6b1a; }
+  .sum-card.c-gao-sum { background: linear-gradient(180deg, #fff1e6 0%, #ffffff 80%); border-color: #ff6b1a55; }
+  .sum-card.c-gao-sum .sum-meta b { color: #ff6b1a; }
+  .sum-card.c-gao-sum .week-list .w { color: #ff6b1a; }
+  .cell.c-zhang { background: linear-gradient(180deg, #e6f7ee 0%, #c8ecd6 100%) !important; }
+  .cell.c-zhang .name { color: #1f9d57; }
+  .sum-card.c-zhang-sum .sum-name { color: #1f9d57; }
+  .sum-card.c-zhang-sum { background: linear-gradient(180deg, #e6f7ee 0%, #ffffff 80%); border-color: #1f9d5755; }
+  .sum-card.c-zhang-sum .sum-meta b { color: #1f9d57; }
+  .sum-card.c-zhang-sum .week-list .w { color: #1f9d57; }
+  .cell.c-hu { background: linear-gradient(180deg, #eaf1ff 0%, #d9e6ff 100%) !important; }
+  .cell.c-hu .name { color: #2c5cdc; }
+  .sum-card.c-hu-sum .sum-name { color: #2c5cdc; }
+  .sum-card.c-hu-sum { background: linear-gradient(180deg, #eaf1ff 0%, #ffffff 80%); border-color: #2c5cdc55; }
+  .sum-card.c-hu-sum .sum-meta b { color: #2c5cdc; }
+  .sum-card.c-hu-sum .week-list .w { color: #2c5cdc; }
+  .cell.c-zhao { background: linear-gradient(180deg, #f3edff 0%, #ddd0fb 100%) !important; }
+  .cell.c-zhao .name { color: #8b5cf6; }
+  .sum-card.c-zhao-sum .sum-name { color: #8b5cf6; }
+  .sum-card.c-zhao-sum { background: linear-gradient(180deg, #f3edff 0%, #ffffff 80%); border-color: #8b5cf655; }
+  .sum-card.c-zhao-sum .sum-meta b { color: #8b5cf6; }
+  .sum-card.c-zhao-sum .week-list .w { color: #8b5cf6; }
+  .cell.c-lin { background: linear-gradient(180deg, #e6f6fa 0%, #c5edf5 100%) !important; }
+  .cell.c-lin .name { color: #0891b2; }
+  .sum-card.c-lin-sum .sum-name { color: #0891b2; }
+  .sum-card.c-lin-sum { background: linear-gradient(180deg, #e6f6fa 0%, #ffffff 80%); border-color: #0891b255; }
+  .sum-card.c-lin-sum .sum-meta b { color: #0891b2; }
+  .sum-card.c-lin-sum .week-list .w { color: #0891b2; }
+  .cell.c-tbd { background: linear-gradient(180deg, #f3f4f6 0%, #e5e7eb 100%) !important; }
+  .cell.c-tbd .name { color: #6b7280; }
+  .sum-card.c-tbd-sum .sum-name { color: #6b7280; }
+  .sum-card.c-tbd-sum { background: linear-gradient(180deg, #f3f4f6 0%, #ffffff 80%); border-color: #6b728055; }
+  .sum-card.c-tbd-sum .sum-meta b { color: #6b7280; }
+  .sum-card.c-tbd-sum .week-list .w { color: #6b7280; }
+
+  /* ===== 个人汇总 ===== */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .sum-card {
+    border-radius: 12px;
+    padding: 14px 16px;
+    border: 2px solid transparent;
+    position: relative;
+  }
+  .sum-name {
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+  .sum-meta {
+    font-size: 12.5px;
+    color: #6c7a93;
+    margin-bottom: 8px;
+  }
+  .sum-meta b { font-size: 15px; }
+  .week-list {
+    font-size: 12px;
+    line-height: 1.8;
+  }
+  .week-list .w {
+    display: inline-block;
+    padding: 1px 6px;
+    background: rgba(255,255,255,0.7);
+    border-radius: 4px;
+    margin: 2px 3px 2px 0;
+    font-weight: 700;
+    color: inherit;
+  }
+
+  /* ===== Footer ===== */
+  .footer {
+    margin-top: 28px;
+    padding: 14px 18px;
+    background: linear-gradient(135deg, #f0f4ff 0%, #fff7e6 100%);
+    border-radius: 10px;
+    text-align: center;
+    font-size: 12.5px;
+    color: #4a5568;
+    letter-spacing: 0.5px;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="title">精讲课拍摄排班表 · S5 + S6</div>
+    <div class="subtitle">W5 ~ W48 · 共 44 周 · 每场拍摄 1 位固定 + 1 位轮值老师</div>
+  </div>
+
+  <!-- ===== 角色 & 职责 ===== -->
+  <div class="level-block s5">
+    <div class="level-header">S5 监棚组</div>
+    <div class="level-body">
+      <div class="role-card fixed">
+        <span class="role-tag">固定</span>
+        <div class="role-people">张洪博 老师</div>
+        <div class="duties">拷贝 PPT、彩排，与出镜讲师逐页过一遍 PPT 后离场</div>
+      </div>
+      <div class="role-card rotating">
+        <span class="role-tag">轮值</span>
+        <div class="role-people">高婷婷 / 张慧凤 / 胡锦羚</div>
+        <div class="duties">按提词器、现场监制正式开拍、记录场记</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="level-block s6">
+    <div class="level-header">S6 监棚组</div>
+    <div class="level-body">
+      <div class="role-card fixed">
+        <span class="role-tag">固定</span>
+        <div class="role-people">侯力宁 老师</div>
+        <div class="duties">拷贝 PPT、彩排，与出镜讲师逐页过一遍 PPT 后离场</div>
+      </div>
+      <div class="role-card rotating">
+        <span class="role-tag">轮值</span>
+        <div class="role-people">赵敏 / 林岚 / TBD（实习生待定）</div>
+        <div class="duties">按提词器、现场监制正式开拍、记录场记</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 重要说明 ===== -->
+  <div class="notes">
+    📌 <b>S5 和 S6 永远不同天拍</b>，每周一个棚一天<br>
+    📅 每个 W <b>必须在当周周五前完成拍摄</b>，特殊情况最迟可推迟到周日<br>
+    👥 具体拍摄是哪一天，请各轮值老师与对应的 <b>张洪博 / 侯力宁 老师</b> 私下沟通确认
+  </div>
+
+  <!-- ===== W5 双棚提醒 ===== -->
+  <div class="w5-notice">
+    <div class="w5-notice-header">⏰ W5 拍摄提醒（一周双棚）</div>
+    <div class="w5-grid">
+      <div class="w5-card s6">
+        <span class="level-badge">S6 - W5</span>
+        <div class="date-line">📅 5 月 8 日（周五）</div>
+        <div class="row"><b>出镜讲师：</b>妙妙老师</div>
+        <div class="row"><b>固定监棚：</b>侯力宁 老师</div>
+        <div class="row"><b>轮值监棚：</b>赵敏 老师 ✨</div>
+        <div class="row" style="margin-top:6px;">📞 请赵敏老师与侯力宁老师私下沟通，确认到岗时间</div>
+        <div class="target">@ 赵敏 老师</div>
+      </div>
+      <div class="w5-card s5">
+        <span class="level-badge">S5 - W5</span>
+        <div class="date-line">📅 5 月 9 日（周六）</div>
+        <div class="row"><b>固定监棚：</b>张洪博 老师</div>
+        <div class="row"><b>轮值监棚：</b>高婷婷 老师 ✨</div>
+        <div class="row" style="margin-top:6px;">⏰ 12:00 化妆 + 彩排 / 14:00 进入正式拍摄</div>
+        <div class="row">📞 请高婷婷老师与张洪博老师私下沟通，确认到岗时间</div>
+        <div class="target">@ 高婷婷 老师</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 3 个月小日历 ===== -->
+  <div class="calendar-section">
+    <div class="section-title">近 3 个月日历预览</div>
+    <div class="calendar-row">
+      <div class="month">
+  <div class="month-title">2026 年 5 月</div>
+  <table class="cal-table"><tr><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th><th>日</th></tr><tr><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class=""><div class="day">1</div></td><td class=""><div class="day">2</div></td><td class=""><div class="day">3</div></td></tr><tr><td class=""><div class="day">4</div></td><td class=""><div class="day">5</div></td><td class=""><div class="day">6</div></td><td class=""><div class="day">7</div></td><td class="shoot s6-day"><div class="day">8</div><span class="cal-tag s6">S6-W5<br>赵敏</span></td><td class="shoot s5-day"><div class="day">9</div><span class="cal-tag s5">S5-W5<br>高婷婷</span></td><td class=""><div class="day">10</div></td></tr><tr><td class=""><div class="day">11</div></td><td class=""><div class="day">12</div></td><td class=""><div class="day">13</div></td><td class=""><div class="day">14</div></td><td class="deadline-day"><div class="day">15</div><span class="cal-tag deadline">W6 截止</span></td><td class=""><div class="day">16</div></td><td class=""><div class="day">17</div></td></tr><tr><td class=""><div class="day">18</div></td><td class=""><div class="day">19</div></td><td class=""><div class="day">20</div></td><td class=""><div class="day">21</div></td><td class="deadline-day"><div class="day">22</div><span class="cal-tag deadline">W7 截止</span></td><td class=""><div class="day">23</div></td><td class=""><div class="day">24</div></td></tr><tr><td class=""><div class="day">25</div></td><td class=""><div class="day">26</div></td><td class=""><div class="day">27</div></td><td class=""><div class="day">28</div></td><td class="deadline-day"><div class="day">29</div><span class="cal-tag deadline">W8 截止</span></td><td class=""><div class="day">30</div></td><td class=""><div class="day">31</div></td></tr></table>
+</div>
+<div class="month">
+  <div class="month-title">2026 年 6 月</div>
+  <table class="cal-table"><tr><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th><th>日</th></tr><tr><td class=""><div class="day">1</div></td><td class=""><div class="day">2</div></td><td class=""><div class="day">3</div></td><td class=""><div class="day">4</div></td><td class="deadline-day"><div class="day">5</div><span class="cal-tag deadline">W9 截止</span></td><td class=""><div class="day">6</div></td><td class=""><div class="day">7</div></td></tr><tr><td class=""><div class="day">8</div></td><td class=""><div class="day">9</div></td><td class=""><div class="day">10</div></td><td class=""><div class="day">11</div></td><td class="deadline-day"><div class="day">12</div><span class="cal-tag deadline">W10 截止</span></td><td class=""><div class="day">13</div></td><td class=""><div class="day">14</div></td></tr><tr><td class=""><div class="day">15</div></td><td class=""><div class="day">16</div></td><td class=""><div class="day">17</div></td><td class=""><div class="day">18</div></td><td class="deadline-day"><div class="day">19</div><span class="cal-tag deadline">W11 截止</span></td><td class=""><div class="day">20</div></td><td class=""><div class="day">21</div></td></tr><tr><td class=""><div class="day">22</div></td><td class=""><div class="day">23</div></td><td class=""><div class="day">24</div></td><td class=""><div class="day">25</div></td><td class="deadline-day"><div class="day">26</div><span class="cal-tag deadline">W12 截止</span></td><td class=""><div class="day">27</div></td><td class=""><div class="day">28</div></td></tr><tr><td class=""><div class="day">29</div></td><td class=""><div class="day">30</div></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td></tr></table>
+</div>
+<div class="month">
+  <div class="month-title">2026 年 7 月</div>
+  <table class="cal-table"><tr><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th><th>日</th></tr><tr><td class="empty"></td><td class="empty"></td><td class=""><div class="day">1</div></td><td class=""><div class="day">2</div></td><td class="deadline-day"><div class="day">3</div><span class="cal-tag deadline">W13 截止</span></td><td class=""><div class="day">4</div></td><td class=""><div class="day">5</div></td></tr><tr><td class=""><div class="day">6</div></td><td class=""><div class="day">7</div></td><td class=""><div class="day">8</div></td><td class=""><div class="day">9</div></td><td class="deadline-day"><div class="day">10</div><span class="cal-tag deadline">W14 截止</span></td><td class=""><div class="day">11</div></td><td class=""><div class="day">12</div></td></tr><tr><td class=""><div class="day">13</div></td><td class=""><div class="day">14</div></td><td class=""><div class="day">15</div></td><td class=""><div class="day">16</div></td><td class="deadline-day"><div class="day">17</div><span class="cal-tag deadline">W15 截止</span></td><td class=""><div class="day">18</div></td><td class=""><div class="day">19</div></td></tr><tr><td class=""><div class="day">20</div></td><td class=""><div class="day">21</div></td><td class=""><div class="day">22</div></td><td class=""><div class="day">23</div></td><td class="deadline-day"><div class="day">24</div><span class="cal-tag deadline">W16 截止</span></td><td class=""><div class="day">25</div></td><td class=""><div class="day">26</div></td></tr><tr><td class=""><div class="day">27</div></td><td class=""><div class="day">28</div></td><td class=""><div class="day">29</div></td><td class=""><div class="day">30</div></td><td class="deadline-day"><div class="day">31</div><span class="cal-tag deadline">W17 截止</span></td><td class="empty"></td><td class="empty"></td></tr></table>
+</div>
+    </div>
+  </div>
+
+  <!-- ===== 主时间轴 ===== -->
+  <div class="timeline-section">
+    <div class="section-title purple">完整排班（W5 ~ W48）</div>
+    <table class="timeline">
+      <thead>
+        <tr>
+          <th>单元</th>
+          <th>周次</th>
+          <th>本周日期范围</th>
+          <th>截止日（默认 / 最迟）</th>
+          <th>S5 轮值监棚</th>
+          <th>S6 轮值监棚</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="month-sep"><td colspan="6">2026 年 5 月</td></tr>
+<tr>
+  <td class="u-cell">U2</td>
+  <td class="w-cell">W5</td>
+  <td class="window-cell">5/4 周一 ~ 5/10 周日</td>
+  <td class="deadline-cell"><b>5/8 周五</b><br><span class="grace">最迟 5/10 周日</span></td>
+  <td class="cell c-gao has-time"><span class="name">高婷婷</span><span class="time-tag">5/9 周六 14:00 到岗</span></td>
+  <td class="cell c-zhao has-time"><span class="name">赵敏</span><span class="time-tag">5/8 周五 与侯力宁老师约</span></td>
+</tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W6</td>
+  <td class="window-cell">5/11 周一 ~ 5/17 周日</td>
+  <td class="deadline-cell"><b>5/15 周五</b><br><span class="grace">最迟 5/17 周日</span></td>
+  <td class="cell c-zhang"><span class="name">张慧凤</span></td>
+  <td class="cell c-lin"><span class="name">林岚</span></td>
+</tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W7</td>
+  <td class="window-cell">5/18 周一 ~ 5/24 周日</td>
+  <td class="deadline-cell"><b>5/22 周五</b><br><span class="grace">最迟 5/24 周日</span></td>
+  <td class="cell c-hu"><span class="name">胡锦羚</span></td>
+  <td class="cell c-tbd"><span class="name">TBD</span></td>
+</tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W8</td>
+  <td class="window-cell">5/25 周一 ~ 5/31 周日</td>
+  <td class="deadline-cell"><b>5/29 周五</b><br><span class="grace">最迟 5/31 周日</span></td>
+  <td class="cell c-gao"><span class="name">高婷婷</span></td>
+  <td class="cell c-zhao"><span class="name">赵敏</span></td>
+</tr>
+<tr class="month-sep"><td colspan="6">2026 年 6 月</td></tr>
+<tr>
+  <td class="u-cell">U3</td>
+  <td class="w-cell">W9</td>
+  <td class="window-cell">6/1 周一 ~ 6/7 周日</td>
+  <td class="deadline-cell"><b>6/5 周五</b><br><span class="grace">最迟 6/7 周日</span></td>
+  <td class="cell c-zhang"><span class="name">张慧凤</span></td>
+  <td class="cell c-lin"><span class="name">林岚</span></td>
+</tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W10</td>
+  <td class="window-cell">6/8 周一 ~ 6/14 周日</td>
+  <td class="deadline-cell"><b>6/12 周五</b><br><span class="grace">最迟 6/14 周日</span></td>
+  <td class="cell c-hu"><span class="name">胡锦羚</span></td>
+  <td class="cell c-tbd"><span class="name">TBD</span></td>
+</tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W11</td>
+  <td class="window-cell">6/15 周一 ~ 6/21 周日</td>
+  <td class="deadline-cell"><b>6/19 周五</b><br><span class="grace">最迟 6/21 周日</span></td>
+  <td class="cell c-gao"><span class="name">高婷婷</span></td>
+  <td class="cell c-zhao"><span class="name">赵敏</span></td>
+</tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W12</td>
+  <td class="window-cell">6/22 周一 ~ 6/28 周日</td>
+  <td class="deadline-cell"><b>6/26 周五</b><br><span class="grace">最迟 6/28 周日</span></td>
+  <td class="cell c-zhang"><span class="name">张慧凤</span></td>
+  <td class="cell c-lin"><span class="name">林岚</span></td>
+</tr>
+<tr>
+  <td class="u-cell">U4</td>
+  <td class="w-cell">W13</td>
+  <td class="window-cell">6/29 周一 ~ 7/5 周日</td>
+  <td class="deadline-cell"><b>7/3 周五</b><br><span class="grace">最迟 7/5 周日</span></td>
+  <td class="cell c-hu"><span class="name">胡锦羚</span></td>
+  <td class="cell c-tbd"><span class="name">TBD</span></td>
+</tr>
+<tr class="month-sep"><td colspan="6">2026 年 7 月</td></tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W14</td>
+  <td class="window-cell">7/6 周一 ~ 7/12 周日</td>
+  <td class="deadline-cell"><b>7/10 周五</b><br><span class="grace">最迟 7/12 周日</span></td>
+  <td class="cell c-gao"><span class="name">高婷婷</span></td>
+  <td class="cell c-zhao"><span class="name">赵敏</span></td>
+</tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W15</td>
+  <td class="window-cell">7/13 周一 ~ 7/19 周日</td>
+  <td class="deadline-cell"><b>7/17 周五</b><br><span class="grace">最迟 7/19 周日</span></td>
+  <td class="cell c-zhang"><span class="name">张慧凤</span></td>
+  <td class="cell c-lin"><span class="name">林岚</span></td>
+</tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W16</td>
+  <td class="window-cell">7/20 周一 ~ 7/26 周日</td>
+  <td class="deadline-cell"><b>7/24 周五</b><br><span class="grace">最迟 7/26 周日</span></td>
+  <td class="cell c-hu"><span class="name">胡锦羚</span></td>
+  <td class="cell c-tbd"><span class="name">TBD</span></td>
+</tr>
+<tr>
+  <td class="u-cell">U5</td>
+  <td class="w-cell">W17</td>
+  <td class="window-cell">7/27 周一 ~ 8/2 周日</td>
+  <td class="deadline-cell"><b>7/31 周五</b><br><span class="grace">最迟 8/2 周日</span></td>
+  <td class="cell c-gao"><span class="name">高婷婷</span></td>
+  <td class="cell c-zhao"><span class="name">赵敏</span></td>
+</tr>
+<tr class="month-sep"><td colspan="6">2026 年 8 月</td></tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W18</td>
+  <td class="window-cell">8/3 周一 ~ 8/9 周日</td>
+  <td class="deadline-cell"><b>8/7 周五</b><br><span class="grace">最迟 8/9 周日</span></td>
+  <td class="cell c-zhang"><span class="name">张慧凤</span></td>
+  <td class="cell c-lin"><span class="name">林岚</span></td>
+</tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W19</td>
+  <td class="window-cell">8/10 周一 ~ 8/16 周日</td>
+  <td class="deadline-cell"><b>8/14 周五</b><br><span class="grace">最迟 8/16 周日</span></td>
+  <td class="cell c-hu"><span class="name">胡锦羚</span></td>
+  <td class="cell c-tbd"><span class="name">TBD</span></td>
+</tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W20</td>
+  <td class="window-cell">8/17 周一 ~ 8/23 周日</td>
+  <td class="deadline-cell"><b>8/21 周五</b><br><span class="grace">最迟 8/23 周日</span></td>
+  <td class="cell c-gao"><span class="name">高婷婷</span></td>
+  <td class="cell c-zhao"><span class="name">赵敏</span></td>
+</tr>
+<tr>
+  <td class="u-cell">U6</td>
+  <td class="w-cell">W21</td>
+  <td class="window-cell">8/24 周一 ~ 8/30 周日</td>
+  <td class="deadline-cell"><b>8/28 周五</b><br><span class="grace">最迟 8/30 周日</span></td>
+  <td class="cell c-zhang"><span class="name">张慧凤</span></td>
+  <td class="cell c-lin"><span class="name">林岚</span></td>
+</tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W22</td>
+  <td class="window-cell">8/31 周一 ~ 9/6 周日</td>
+  <td class="deadline-cell"><b>9/4 周五</b><br><span class="grace">最迟 9/6 周日</span></td>
+  <td class="cell c-hu"><span class="name">胡锦羚</span></td>
+  <td class="cell c-tbd"><span class="name">TBD</span></td>
+</tr>
+<tr class="month-sep"><td colspan="6">2026 年 9 月</td></tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W23</td>
+  <td class="window-cell">9/7 周一 ~ 9/13 周日</td>
+  <td class="deadline-cell"><b>9/11 周五</b><br><span class="grace">最迟 9/13 周日</span></td>
+  <td class="cell c-gao"><span class="name">高婷婷</span></td>
+  <td class="cell c-zhao"><span class="name">赵敏</span></td>
+</tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W24</td>
+  <td class="window-cell">9/14 周一 ~ 9/20 周日</td>
+  <td class="deadline-cell"><b>9/18 周五</b><br><span class="grace">最迟 9/20 周日</span></td>
+  <td class="cell c-zhang"><span class="name">张慧凤</span></td>
+  <td class="cell c-lin"><span class="name">林岚</span></td>
+</tr>
+<tr>
+  <td class="u-cell">U7</td>
+  <td class="w-cell">W25</td>
+  <td class="window-cell">9/21 周一 ~ 9/27 周日</td>
+  <td class="deadline-cell"><b>9/25 周五</b><br><span class="grace">最迟 9/27 周日</span></td>
+  <td class="cell c-hu"><span class="name">胡锦羚</span></td>
+  <td class="cell c-tbd"><span class="name">TBD</span></td>
+</tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W26</td>
+  <td class="window-cell">9/28 周一 ~ 10/4 周日</td>
+  <td class="deadline-cell"><b>10/2 周五</b><br><span class="grace">最迟 10/4 周日</span></td>
+  <td class="cell c-gao"><span class="name">高婷婷</span></td>
+  <td class="cell c-zhao"><span class="name">赵敏</span></td>
+</tr>
+<tr class="month-sep"><td colspan="6">2026 年 10 月</td></tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W27</td>
+  <td class="window-cell">10/5 周一 ~ 10/11 周日</td>
+  <td class="deadline-cell"><b>10/9 周五</b><br><span class="grace">最迟 10/11 周日</span></td>
+  <td class="cell c-zhang"><span class="name">张慧凤</span></td>
+  <td class="cell c-lin"><span class="name">林岚</span></td>
+</tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W28</td>
+  <td class="window-cell">10/12 周一 ~ 10/18 周日</td>
+  <td class="deadline-cell"><b>10/16 周五</b><br><span class="grace">最迟 10/18 周日</span></td>
+  <td class="cell c-hu"><span class="name">胡锦羚</span></td>
+  <td class="cell c-tbd"><span class="name">TBD</span></td>
+</tr>
+<tr>
+  <td class="u-cell">U8</td>
+  <td class="w-cell">W29</td>
+  <td class="window-cell">10/19 周一 ~ 10/25 周日</td>
+  <td class="deadline-cell"><b>10/23 周五</b><br><span class="grace">最迟 10/25 周日</span></td>
+  <td class="cell c-gao"><span class="name">高婷婷</span></td>
+  <td class="cell c-zhao"><span class="name">赵敏</span></td>
+</tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W30</td>
+  <td class="window-cell">10/26 周一 ~ 11/1 周日</td>
+  <td class="deadline-cell"><b>10/30 周五</b><br><span class="grace">最迟 11/1 周日</span></td>
+  <td class="cell c-zhang"><span class="name">张慧凤</span></td>
+  <td class="cell c-lin"><span class="name">林岚</span></td>
+</tr>
+<tr class="month-sep"><td colspan="6">2026 年 11 月</td></tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W31</td>
+  <td class="window-cell">11/2 周一 ~ 11/8 周日</td>
+  <td class="deadline-cell"><b>11/6 周五</b><br><span class="grace">最迟 11/8 周日</span></td>
+  <td class="cell c-hu"><span class="name">胡锦羚</span></td>
+  <td class="cell c-tbd"><span class="name">TBD</span></td>
+</tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W32</td>
+  <td class="window-cell">11/9 周一 ~ 11/15 周日</td>
+  <td class="deadline-cell"><b>11/13 周五</b><br><span class="grace">最迟 11/15 周日</span></td>
+  <td class="cell c-gao"><span class="name">高婷婷</span></td>
+  <td class="cell c-zhao"><span class="name">赵敏</span></td>
+</tr>
+<tr>
+  <td class="u-cell">U9</td>
+  <td class="w-cell">W33</td>
+  <td class="window-cell">11/16 周一 ~ 11/22 周日</td>
+  <td class="deadline-cell"><b>11/20 周五</b><br><span class="grace">最迟 11/22 周日</span></td>
+  <td class="cell c-zhang"><span class="name">张慧凤</span></td>
+  <td class="cell c-lin"><span class="name">林岚</span></td>
+</tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W34</td>
+  <td class="window-cell">11/23 周一 ~ 11/29 周日</td>
+  <td class="deadline-cell"><b>11/27 周五</b><br><span class="grace">最迟 11/29 周日</span></td>
+  <td class="cell c-hu"><span class="name">胡锦羚</span></td>
+  <td class="cell c-tbd"><span class="name">TBD</span></td>
+</tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W35</td>
+  <td class="window-cell">11/30 周一 ~ 12/6 周日</td>
+  <td class="deadline-cell"><b>12/4 周五</b><br><span class="grace">最迟 12/6 周日</span></td>
+  <td class="cell c-gao"><span class="name">高婷婷</span></td>
+  <td class="cell c-zhao"><span class="name">赵敏</span></td>
+</tr>
+<tr class="month-sep"><td colspan="6">2026 年 12 月</td></tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W36</td>
+  <td class="window-cell">12/7 周一 ~ 12/13 周日</td>
+  <td class="deadline-cell"><b>12/11 周五</b><br><span class="grace">最迟 12/13 周日</span></td>
+  <td class="cell c-zhang"><span class="name">张慧凤</span></td>
+  <td class="cell c-lin"><span class="name">林岚</span></td>
+</tr>
+<tr>
+  <td class="u-cell">U10</td>
+  <td class="w-cell">W37</td>
+  <td class="window-cell">12/14 周一 ~ 12/20 周日</td>
+  <td class="deadline-cell"><b>12/18 周五</b><br><span class="grace">最迟 12/20 周日</span></td>
+  <td class="cell c-hu"><span class="name">胡锦羚</span></td>
+  <td class="cell c-tbd"><span class="name">TBD</span></td>
+</tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W38</td>
+  <td class="window-cell">12/21 周一 ~ 12/27 周日</td>
+  <td class="deadline-cell"><b>12/25 周五</b><br><span class="grace">最迟 12/27 周日</span></td>
+  <td class="cell c-gao"><span class="name">高婷婷</span></td>
+  <td class="cell c-zhao"><span class="name">赵敏</span></td>
+</tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W39</td>
+  <td class="window-cell">12/28 周一 ~ 1/3 周日</td>
+  <td class="deadline-cell"><b>1/1 周五</b><br><span class="grace">最迟 1/3 周日</span></td>
+  <td class="cell c-zhang"><span class="name">张慧凤</span></td>
+  <td class="cell c-lin"><span class="name">林岚</span></td>
+</tr>
+<tr class="month-sep"><td colspan="6">2027 年 1 月</td></tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W40</td>
+  <td class="window-cell">1/4 周一 ~ 1/10 周日</td>
+  <td class="deadline-cell"><b>1/8 周五</b><br><span class="grace">最迟 1/10 周日</span></td>
+  <td class="cell c-hu"><span class="name">胡锦羚</span></td>
+  <td class="cell c-tbd"><span class="name">TBD</span></td>
+</tr>
+<tr>
+  <td class="u-cell">U11</td>
+  <td class="w-cell">W41</td>
+  <td class="window-cell">1/11 周一 ~ 1/17 周日</td>
+  <td class="deadline-cell"><b>1/15 周五</b><br><span class="grace">最迟 1/17 周日</span></td>
+  <td class="cell c-gao"><span class="name">高婷婷</span></td>
+  <td class="cell c-zhao"><span class="name">赵敏</span></td>
+</tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W42</td>
+  <td class="window-cell">1/18 周一 ~ 1/24 周日</td>
+  <td class="deadline-cell"><b>1/22 周五</b><br><span class="grace">最迟 1/24 周日</span></td>
+  <td class="cell c-zhang"><span class="name">张慧凤</span></td>
+  <td class="cell c-lin"><span class="name">林岚</span></td>
+</tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W43</td>
+  <td class="window-cell">1/25 周一 ~ 1/31 周日</td>
+  <td class="deadline-cell"><b>1/29 周五</b><br><span class="grace">最迟 1/31 周日</span></td>
+  <td class="cell c-hu"><span class="name">胡锦羚</span></td>
+  <td class="cell c-tbd"><span class="name">TBD</span></td>
+</tr>
+<tr class="month-sep"><td colspan="6">2027 年 2 月</td></tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W44</td>
+  <td class="window-cell">2/1 周一 ~ 2/7 周日</td>
+  <td class="deadline-cell"><b>2/5 周五</b><br><span class="grace">最迟 2/7 周日</span></td>
+  <td class="cell c-gao"><span class="name">高婷婷</span></td>
+  <td class="cell c-zhao"><span class="name">赵敏</span></td>
+</tr>
+<tr>
+  <td class="u-cell">U12</td>
+  <td class="w-cell">W45</td>
+  <td class="window-cell">2/8 周一 ~ 2/14 周日</td>
+  <td class="deadline-cell"><b>2/12 周五</b><br><span class="grace">最迟 2/14 周日</span></td>
+  <td class="cell c-zhang"><span class="name">张慧凤</span></td>
+  <td class="cell c-lin"><span class="name">林岚</span></td>
+</tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W46</td>
+  <td class="window-cell">2/15 周一 ~ 2/21 周日</td>
+  <td class="deadline-cell"><b>2/19 周五</b><br><span class="grace">最迟 2/21 周日</span></td>
+  <td class="cell c-hu"><span class="name">胡锦羚</span></td>
+  <td class="cell c-tbd"><span class="name">TBD</span></td>
+</tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W47</td>
+  <td class="window-cell">2/22 周一 ~ 2/28 周日</td>
+  <td class="deadline-cell"><b>2/26 周五</b><br><span class="grace">最迟 2/28 周日</span></td>
+  <td class="cell c-gao"><span class="name">高婷婷</span></td>
+  <td class="cell c-zhao"><span class="name">赵敏</span></td>
+</tr>
+<tr class="month-sep"><td colspan="6">2027 年 3 月</td></tr>
+<tr>
+  <td class="u-cell empty"></td>
+  <td class="w-cell">W48</td>
+  <td class="window-cell">3/1 周一 ~ 3/7 周日</td>
+  <td class="deadline-cell"><b>3/5 周五</b><br><span class="grace">最迟 3/7 周日</span></td>
+  <td class="cell c-zhang"><span class="name">张慧凤</span></td>
+  <td class="cell c-lin"><span class="name">林岚</span></td>
+</tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===== 个人汇总 ===== -->
+  <div class="section-title green">每位老师对应的周</div>
+  <div style="margin-bottom:6px; font-size: 13px; color: #4a5568; font-weight: 600;">📘 S5 轮值组</div>
+  <div class="summary-grid">
+    <div class="sum-card c-gao-sum">
+  <div class="sum-name">高婷婷</div>
+  <div class="sum-meta">合计 <b>15</b> 周</div>
+  <div class="week-list"><span class="w">W5</span><span class="w">W8</span><span class="w">W11</span><span class="w">W14</span><span class="w">W17</span><span class="w">W20</span><span class="w">W23</span><span class="w">W26</span><span class="w">W29</span><span class="w">W32</span><span class="w">W35</span><span class="w">W38</span><span class="w">W41</span><span class="w">W44</span><span class="w">W47</span></div>
+</div>
+<div class="sum-card c-zhang-sum">
+  <div class="sum-name">张慧凤</div>
+  <div class="sum-meta">合计 <b>15</b> 周</div>
+  <div class="week-list"><span class="w">W6</span><span class="w">W9</span><span class="w">W12</span><span class="w">W15</span><span class="w">W18</span><span class="w">W21</span><span class="w">W24</span><span class="w">W27</span><span class="w">W30</span><span class="w">W33</span><span class="w">W36</span><span class="w">W39</span><span class="w">W42</span><span class="w">W45</span><span class="w">W48</span></div>
+</div>
+<div class="sum-card c-hu-sum">
+  <div class="sum-name">胡锦羚</div>
+  <div class="sum-meta">合计 <b>14</b> 周</div>
+  <div class="week-list"><span class="w">W7</span><span class="w">W10</span><span class="w">W13</span><span class="w">W16</span><span class="w">W19</span><span class="w">W22</span><span class="w">W25</span><span class="w">W28</span><span class="w">W31</span><span class="w">W34</span><span class="w">W37</span><span class="w">W40</span><span class="w">W43</span><span class="w">W46</span></div>
+</div>
+  </div>
+  <div style="margin-bottom:6px; font-size: 13px; color: #4a5568; font-weight: 600;">📗 S6 轮值组</div>
+  <div class="summary-grid">
+    <div class="sum-card c-zhao-sum">
+  <div class="sum-name">赵敏</div>
+  <div class="sum-meta">合计 <b>15</b> 周</div>
+  <div class="week-list"><span class="w">W5</span><span class="w">W8</span><span class="w">W11</span><span class="w">W14</span><span class="w">W17</span><span class="w">W20</span><span class="w">W23</span><span class="w">W26</span><span class="w">W29</span><span class="w">W32</span><span class="w">W35</span><span class="w">W38</span><span class="w">W41</span><span class="w">W44</span><span class="w">W47</span></div>
+</div>
+<div class="sum-card c-lin-sum">
+  <div class="sum-name">林岚</div>
+  <div class="sum-meta">合计 <b>15</b> 周</div>
+  <div class="week-list"><span class="w">W6</span><span class="w">W9</span><span class="w">W12</span><span class="w">W15</span><span class="w">W18</span><span class="w">W21</span><span class="w">W24</span><span class="w">W27</span><span class="w">W30</span><span class="w">W33</span><span class="w">W36</span><span class="w">W39</span><span class="w">W42</span><span class="w">W45</span><span class="w">W48</span></div>
+</div>
+<div class="sum-card c-tbd-sum">
+  <div class="sum-name">TBD</div>
+  <div class="sum-meta">合计 <b>14</b> 周</div>
+  <div class="week-list"><span class="w">W7</span><span class="w">W10</span><span class="w">W13</span><span class="w">W16</span><span class="w">W19</span><span class="w">W22</span><span class="w">W25</span><span class="w">W28</span><span class="w">W31</span><span class="w">W34</span><span class="w">W37</span><span class="w">W40</span><span class="w">W43</span><span class="w">W46</span></div>
+</div>
+  </div>
+
+  <div class="footer">
+    U1（W1～W4）已拍摄完毕 ✅ ｜
+    S5 顺序：高婷婷 → 张慧凤 → 胡锦羚 → 循环 ｜
+    S6 顺序：赵敏 → 林岚 → TBD → 循环
+  </div>
+
+</div>
+</body>
+</html>
