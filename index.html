@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<title>拍摄沟通话术</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    font-family: "PingFang SC", "Helvetica Neue", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: #f4f6fb;
+    color: #2c3e50;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page {
+    width: 880px;
+    margin: 0 auto;
+    padding: 48px 56px 56px;
+    background: #ffffff;
+  }
+
+  .header {
+    text-align: center;
+    padding: 14px 0 28px;
+    border-bottom: 2px dashed #e1e6ef;
+    margin-bottom: 32px;
+  }
+  .header .title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a2b4a;
+    letter-spacing: 1px;
+  }
+  .header .subtitle {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #8a94a6;
+  }
+
+  .section {
+    margin-bottom: 36px;
+  }
+  .section-title {
+    display: inline-block;
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    background: linear-gradient(90deg, #4f7df0 0%, #6f9cff 100%);
+    padding: 8px 18px;
+    border-radius: 8px 8px 8px 0;
+    margin-bottom: 18px;
+    box-shadow: 0 4px 12px rgba(79, 125, 240, 0.25);
+  }
+  .section-title.green {
+    background: linear-gradient(90deg, #2bb673 0%, #4dd396 100%);
+    box-shadow: 0 4px 12px rgba(43, 182, 115, 0.25);
+  }
+
+  .greeting {
+    font-size: 15px;
+    color: #4a5568;
+    margin-bottom: 16px;
+    line-height: 1.8;
+  }
+
+  .block {
+    background: #f9fafd;
+    border-left: 4px solid #4f7df0;
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+  }
+  .block.green { border-left-color: #2bb673; }
+
+  .block-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1a2b4a;
+    margin-bottom: 10px;
+  }
+
+  p, li {
+    font-size: 15px;
+    line-height: 1.85;
+    color: #2c3e50;
+  }
+  ul { padding-left: 22px; }
+  li { margin-bottom: 4px; }
+
+  /* 重点强调样式 */
+  .hl-blue {
+    color: #2c5cdc;
+    font-weight: 700;
+  }
+  .hl-orange {
+    color: #ff6b1a;
+    font-weight: 700;
+  }
+  .hl-red {
+    color: #e8385c;
+    font-weight: 700;
+  }
+  .hl-green {
+    color: #1f9d57;
+    font-weight: 700;
+  }
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .tag-blue { background: #e8efff; color: #2c5cdc; }
+  .tag-orange { background: #fff1e6; color: #ff6b1a; }
+  .tag-green { background: #e6f7ee; color: #1f9d57; }
+  .tag-red { background: #ffe9ef; color: #e8385c; }
+
+  /* 课程结构示意 */
+  .schedule {
+    background: #1a2b4a;
+    color: #d8e1f3;
+    border-radius: 8px;
+    padding: 16px 22px;
+    font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+    font-size: 14px;
+    line-height: 1.9;
+    margin: 12px 0 4px;
+  }
+  .schedule .u { color: #ffd166; font-weight: 700; }
+  .schedule .w { color: #80bfff; }
+
+  /* 轮换表 */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  thead th {
+    background: #4f7df0;
+    color: #fff;
+    font-size: 14px;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+  }
+  tbody td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #eef1f7;
+    font-size: 14px;
+  }
+  tbody tr:nth-child(even) td { background: #fafbfd; }
+  tbody tr:last-child td { border-bottom: none; }
+  .you-row td {
+    background: #fff7e6 !important;
+    color: #b95f00;
+    font-weight: 700;
+  }
+  .done-row td {
+    color: #6c7a93;
+  }
+
+  /* 行动事项 */
+  .todo-list {
+    counter-reset: todo;
+    list-style: none;
+    padding-left: 0;
+  }
+  .todo-list li {
+    counter-increment: todo;
+    position: relative;
+    padding: 12px 14px 12px 48px;
+    background: #fdfaf4;
+    border: 1px solid #f0e3c8;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  .todo-list li::before {
+    content: counter(todo);
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #ff6b1a;
+    color: #fff;
+    text-align: center;
+    line-height: 24px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .todo-list .label {
+    font-weight: 700;
+    color: #1a2b4a;
+    margin-right: 6px;
+  }
+
+  .footer-note {
+    margin-top: 28px;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #fff7e6 0%, #ffeede 100%);
+    border-radius: 10px;
+    font-size: 15px;
+    color: #b95f00;
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="title">拍摄沟通｜课程介绍 &amp; 拍摄安排</div>
+    <div class="subtitle">致拍摄老师 · 精讲课</div>
+  </div>
+
+  <!-- 第一部分 -->
+  <div class="section">
+    <div class="section-title">一、课程介绍</div>
+    <p class="greeting">老师您好~先和您同步一下我们的课程体系，方便您后续了解整体节奏：</p>
+
+    <div class="block">
+      <div class="block-title">1. 课程结构</div>
+      <p>我们的项目一共有 <span class="hl-blue">2 个 S 的课程</span>（S 可以理解为"年级"）。</p>
+      <ul>
+        <li>每个 S 包含 <span class="hl-blue">12 个 U / 48 个 W</span></li>
+        <li>U 可以理解为 <span class="hl-blue">Unit（单元）</span>，每月 1 个 U，所以也可以直接当成"<span class="hl-orange">月</span>"来理解</li>
+        <li>每个 U 内包含 <span class="hl-blue">4 个 W（week）</span></li>
+      </ul>
+      <div class="schedule">
+<span class="u">U1</span>　：<span class="w">W1</span>　<span class="w">W2</span>　<span class="w">W3</span>　<span class="w">W4</span><br>
+<span class="u">U2</span>　：<span class="w">W5</span>　<span class="w">W6</span>　<span class="w">W7</span>　<span class="w">W8</span><br>
+<span class="u">U3</span>　：<span class="w">W9</span>　<span class="w">W10</span>　<span class="w">W11</span>　<span class="w">W12</span><br>
+　……<br>
+<span class="u">U12</span>：<span class="w">W45</span>　<span class="w">W46</span>　<span class="w">W47</span>　<span class="w">W48</span>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-title">2. 精讲课的拍摄定位</div>
+      <p>咱们的 <span class="hl-orange">精讲课每周有 2 个课时</span>，用户会 <span class="hl-blue">分 2 天上课</span>。<br>从 <span class="hl-blue">用户视角</span> 看到的课程，就是每周的 <span class="hl-orange">D6 和 D7</span>。</p>
+    </div>
+
+    <div class="block">
+      <div class="block-title">3. 老师轮换机制</div>
+      <p>从课程设计和用户体验出发，我们希望做到两点：</p>
+      <ul>
+        <li>让用户 <span class="hl-blue">保有新鲜感</span></li>
+        <li>又能在一段时间内 <span class="hl-blue">稳定适应同一位老师的风格</span>，不用频繁切换</li>
+      </ul>
+      <p style="margin-top:8px;">所以我们设计了 <span class="hl-red">"按 U 轮换老师"</span> 的节奏：每个 U 内的 4 个 W 由同一位老师拍摄，下一个 U 再换人。大致示意如下（仅为举例）：</p>
+
+      <table>
+        <thead>
+          <tr><th style="width:25%;">单元</th><th>安排</th></tr>
+        </thead>
+        <tbody>
+          <tr class="done-row"><td>U1</td><td>已拍摄完毕 ✅</td></tr>
+          <tr class="you-row"><td>U2</td><td>预约您 ✨</td></tr>
+          <tr><td>U3</td><td>预约老师 B</td></tr>
+          <tr><td>U4</td><td>预约老师 C</td></tr>
+          <tr class="you-row"><td>U5</td><td>预约您 ✨</td></tr>
+          <tr><td>U6</td><td>预约老师 B</td></tr>
+          <tr><td>U7</td><td>预约老师 C</td></tr>
+          <tr><td>……</td><td>……</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:12px;">后续 U 的具体安排我们会再确认，但 <span class="hl-red">可以确定的是：U2 的 4 个 W 都会预约您来拍摄</span><br>（即 <span class="hl-orange">8 个课时</span>，<span class="hl-blue">五一节后四周</span>，每周会预约您来拍摄 <span class="hl-orange">2 个课时</span>）。</p>
+    </div>
+  </div>
+
+  <!-- 第二部分 -->
+  <div class="section">
+    <div class="section-title green">二、接下来需要您做的事</div>
+
+    <ol class="todo-list">
+      <li>
+        <span class="label">拍摄级别：</span>
+        结合您的风格，我们认为更适合高级别内容，所以这次安排在 <span class="tag tag-blue">S6</span>。
+      </li>
+      <li>
+        <span class="label">本次拍摄内容：</span>
+        <span class="tag tag-orange">S6 - W5</span>（也就是 <span class="hl-orange">U2 的第 1 个 week</span>）。
+      </li>
+      <li>
+        <span class="label">拍摄时间：</span>
+        希望约您 <span class="tag tag-red">5 月 8 日</span> 来拍摄，麻烦您看一下时间是否方便？
+      </li>
+      <li>
+        <span class="label">好消息：</span>
+        我们这边 <span class="tag tag-green">已配备提词器</span> 🎉，您拍摄会更轻松一些~
+      </li>
+    </ol>
+
+    <div class="footer-note">期待您的回复，有任何问题随时和我说 :)</div>
+  </div>
+
+</div>
+</body>
+</html>
