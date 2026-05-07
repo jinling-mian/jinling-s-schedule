@@ -10,111 +10,114 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
     font-family: "PingFang SC", "Helvetica Neue", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-    background: #f0eee9;
-    color: #3d4853;
+    background: #f5f5f7;
+    color: #1d1d1f;
     -webkit-font-smoothing: antialiased;
   }
   .page {
     max-width: 1280px;
     margin: 0 auto;
-    padding: 20px 28px 100px;
+    padding: 22px 28px 100px;
     background: #ffffff;
   }
 
   .header {
     text-align: center;
-    padding-bottom: 12px;
-    margin-bottom: 14px;
-    border-bottom: 2px dashed #d4d6db;
+    padding-bottom: 14px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #ebebed;
   }
-  .title { font-size: 24px; font-weight: 800; color: #3d4853; letter-spacing: 1.5px; }
-  .subtitle { margin-top: 6px; font-size: 13px; color: #8e95a1; letter-spacing: 0.8px; }
+  .title { font-size: 24px; font-weight: 800; color: #1d1d1f; letter-spacing: 1px; }
+  .subtitle { margin-top: 8px; font-size: 13px; color: #86868b; letter-spacing: 0.5px; font-weight: 500; }
 
   /* ===== 顶部「为啥要复制」横幅 ===== */
   .why-banner {
-    margin-bottom: 14px;
-    padding: 11px 14px;
-    background: linear-gradient(90deg, #dee4ec 0%, #eaedf2 100%);
-    border-left: 4px solid #7d99b3;
-    border-radius: 6px;
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    background: #f5f7fa;
+    border-left: 3px solid #7d99b3;
+    border-radius: 4px;
     font-size: 13px;
     line-height: 1.7;
-    color: #3d4853;
+    color: #4a5663;
+    font-weight: 500;
   }
-  .why-banner b { color: #6b87a3; }
+  .why-banner b { color: #5a7d9e; }
 
   /* ===== 顶部进度条 ===== */
   .progress-bar {
     position: sticky;
     top: 0;
     z-index: 20;
-    background: #ffffff;
-    border-bottom: 1px solid #d4d6db;
-    margin: 0 -28px 14px;
-    padding: 10px 28px;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: saturate(180%) blur(8px);
+    -webkit-backdrop-filter: saturate(180%) blur(8px);
+    border-bottom: 1px solid #ebebed;
+    margin: 0 -28px 16px;
+    padding: 11px 28px;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
   }
-  .progress-text { font-size: 13px; font-weight: 700; color: #3d4853; flex: 0 0 auto; }
-  .progress-text .num.confirmed { color: #7a958a; font-size: 16px; }
-  .progress-text .num.pending { color: #b69e7c; font-size: 16px; }
-  .progress-text .sep { color: #b5b9c0; margin: 0 4px; }
+  .progress-text { font-size: 13px; font-weight: 600; color: #1d1d1f; flex: 0 0 auto; letter-spacing: 0.3px; }
+  .progress-text .num.confirmed { color: #5a8a72; font-size: 16px; font-weight: 800; }
+  .progress-text .num.pending { color: #a8956f; font-size: 16px; font-weight: 800; }
+  .progress-text .sep { color: #c7c9cc; margin: 0 4px; }
   .progress-track {
     flex: 1;
-    height: 8px;
-    background: #ebebed;
-    border-radius: 4px;
+    height: 6px;
+    background: #efeff1;
+    border-radius: 3px;
     overflow: hidden;
     display: flex;
   }
   .progress-fill-confirmed {
     height: 100%;
-    background: linear-gradient(90deg, #7a958a 0%, #95ab9c 100%);
+    background: #7a958a;
     transition: width 0.25s ease;
     width: 0%;
   }
   .progress-fill-pending {
     height: 100%;
-    background: repeating-linear-gradient(45deg, #c2a984 0 6px, #d4bf9e 6px 12px);
+    background: repeating-linear-gradient(45deg, #c8b594 0 5px, #d8c8a8 5px 10px);
     transition: width 0.25s ease;
     width: 0%;
   }
 
   /* ===== CTA + 摘要 ===== */
   .cta-box {
-    margin-bottom: 16px;
-    padding: 14px 18px;
-    background: linear-gradient(90deg, #f3eee2 0%, #f3eee2 100%);
-    border: 2px solid #b69e7c;
+    margin-bottom: 18px;
+    padding: 14px 18px 16px;
+    background: #ffffff;
+    border: 1px solid #ebebed;
     border-radius: 12px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
   }
   .cta-title {
     display: flex; align-items: center; gap: 8px;
-    font-size: 14.5px; font-weight: 800; color: #8a6a52;
+    font-size: 14.5px; font-weight: 800; color: #1d1d1f;
     margin-bottom: 6px; flex-wrap: wrap;
   }
   .cta-title .pin {
-    padding: 2px 10px; background: #c89e80; color: #fff;
-    border-radius: 12px; font-size: 12.5px; font-weight: 800; letter-spacing: 1px;
+    padding: 2px 10px; background: #5a8a72; color: #fff;
+    border-radius: 10px; font-size: 12px; font-weight: 800; letter-spacing: 1px;
   }
-  .cta-hint { font-size: 12.5px; color: #6a563d; font-weight: 600; margin-bottom: 10px; }
-  .cta-hint b { color: #8a6a52; }
+  .cta-hint { font-size: 12.5px; color: #6e6e73; font-weight: 500; margin-bottom: 10px; }
+  .cta-hint b { color: #1d1d1f; }
   .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 
-  /* 摘要区显隐控制：默认隐藏，cta-box 有任意勾选时展开 */
-  .summary-area { display: none; }
-  .cta-box:not(.empty) .summary-area { display: block; }
+  /* 实时摘要区：彻底隐藏（桌面 + 手机统一不显示） */
+  .summary-area { display: none !important; }
   .cta-empty-hint {
-    display: none;
+    display: block;
     font-size: 13px;
-    color: #6a563d;
-    line-height: 1.7;
+    color: #6e6e73;
+    line-height: 1.75;
     text-align: center;
-    padding: 4px 8px 10px;
+    padding: 2px 8px 10px;
+    font-weight: 500;
   }
-  .cta-empty-hint b { color: #8a6a52; }
-  .cta-box.empty .cta-empty-hint { display: block; }
+  .cta-empty-hint b { color: #1d1d1f; font-weight: 700; }
   .sum-card {
     display: flex; align-items: center; gap: 10px; padding: 9px 12px;
     background: #ffffff; border-radius: 8px; border: 1.5px dashed #b69e7c;
@@ -150,13 +153,13 @@
   }
   .required-badge.sm { font-size: 10.5px; padding: 1.5px 6px; }
 
-  /* W2 必选周 banner 加红色提示 */
-  td.week-banner.banner-required {
-    background: linear-gradient(90deg, #ecdfdc 0%, #f3ecea 100%);
-    border-top: 2px solid #a8645c;
-    border-bottom: 2px solid #a8645c;
+  /* W2 必选周左侧 banner */
+  td.week-side-banner.banner-required {
+    background: #efe2df;
+    border-left: 3px solid #a8645c;
   }
-  td.week-banner.banner-required .banner-sub { color: #8a4d47; }
+  td.week-side-banner.banner-required .side-title { color: #6b3a33; }
+  td.week-side-banner.banner-required .side-sub { color: #8a4d47; }
 
   /* 必选摘要卡 */
   .sum-card.sum-required {
@@ -242,18 +245,18 @@
 
   /* ===== Legend ===== */
   .legend {
-    display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
-    margin-bottom: 14px; padding: 8px 12px;
-    background: #f5f5f3; border-radius: 8px; font-size: 12px;
+    display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+    margin-bottom: 16px; padding: 9px 14px;
+    background: #fafafa; border: 1px solid #ebebed; border-radius: 8px; font-size: 12px;
   }
-  .legend-item { display: flex; align-items: center; gap: 6px; color: #5a6371; font-weight: 600; }
-  .swatch { width: 16px; height: 16px; border-radius: 3px; border: 1.5px solid transparent; }
-  .swatch.jiang { background: #eaedf2; border: 1.5px dashed #6b87a3; }
-  .swatch.ban   { background: #f5efe6; border: 1.5px dashed #b38a6e; }
-  .swatch.fixed { background: #7a958a; border-color: #7a958a; }
-  .swatch.blocked { background: repeating-linear-gradient(45deg, #d4d6db 0 4px, #f3f4f6 4px 8px); border-color: #b5b9c0; }
+  .legend-item { display: flex; align-items: center; gap: 6px; color: #6e6e73; font-weight: 500; }
+  .swatch { width: 14px; height: 14px; border-radius: 3px; border: 1px solid transparent; }
+  .swatch.jiang { background: #f6f9fc; border: 1.5px dashed #b3c4d4; }
+  .swatch.ban   { background: #fbf7f0; border: 1.5px dashed #d4c0a8; }
+  .swatch.fixed { background: #f4f7f5; border-color: #c8d4cc; }
+  .swatch.blocked { background: repeating-linear-gradient(45deg, #e5e5e7 0 4px, #f3f3f5 4px 8px); border-color: #d4d4d6; }
   .swatch.selected { background: #7a958a; border-color: #5a7a6e; }
-  .swatch.pending { background: repeating-linear-gradient(45deg, #c2a984 0 4px, #ffe2a3 4px 8px); border-color: #c89e80; }
+  .swatch.pending { background: repeating-linear-gradient(45deg, #c8b594 0 4px, #e8dcc4 4px 8px); border-color: #b39e7a; }
 
   /* ===== 移动端任务卡片视图（默认隐藏，移动端启用） ===== */
   .task-list { display: none; }
@@ -355,88 +358,135 @@
   table.calendar {
     width: 100%; min-width: 980px;
     border-collapse: separate; border-spacing: 0; table-layout: fixed;
-    border-radius: 12px; overflow: hidden;
-    box-shadow: 0 4px 14px rgba(61,72,83,0.06);
+    border-radius: 14px; overflow: hidden;
+    border: 1px solid #ebebed;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
   }
   table.calendar thead .dow-th {
-    background: #3d4853; color: #fff; padding: 9px 0;
-    font-size: 13px; font-weight: 700; letter-spacing: 1px; text-align: center;
+    background: #46546a; color: #ffffff; padding: 11px 0;
+    font-size: 12.5px; font-weight: 700; letter-spacing: 1.5px; text-align: center;
+    border-bottom: 1px solid #364257;
   }
-  tr.week-banner-row td.week-banner {
-    padding: 9px 16px; font-size: 12.5px;
-    border-top: 1px solid #d4d6db; border-bottom: 1px solid #d4d6db;
+  table.calendar thead .week-side-th {
+    width: 118px;
+    background: #46546a;
+    border-right: 1px solid #364257;
   }
-  .banner-inner { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-  td.week-banner.banner-pick { background: linear-gradient(90deg, #f3eee2 0%, #f7f4ec 100%); }
-  td.week-banner.banner-fixed { background: #eef2ef; }
-  .banner-title { font-weight: 800; color: #3d4853; font-size: 13px; }
-  .banner-sub { color: #8a6a52; font-weight: 700; font-size: 12.5px; flex: 1; min-width: 0; }
-  td.week-banner.banner-fixed .banner-sub { color: #5a7a6e; }
 
-  /* W3 / W4 banner 上的「⏳ 本周暂无法确定」大按钮 */
-  .banner-pending-btn {
-    margin-left: auto;
-    padding: 8px 18px;
-    background: #fff;
-    color: #8a6a52;
-    border: 2px dashed #c89e80;
-    border-radius: 8px;
-    font-size: 13.5px;
-    font-weight: 800;
-    cursor: pointer;
-    font-family: inherit;
-    letter-spacing: 0.5px;
+  /* 左侧周次列：用深一点的中性色，整体跟白色日历明显区分 */
+  td.week-side-banner {
+    width: 118px;
+    vertical-align: middle;
+    text-align: center;
+    padding: 14px 10px;
+    background: #e3e7ee;
+    border-right: 1px solid #d4dae4;
+    border-top: 1px solid #d4dae4;
+    border-bottom: 1px solid #d4dae4;
+  }
+  td.week-side-banner.banner-fixed { background: #dfe6e2; }
+  td.week-side-banner.banner-pick  { background: #e3e7ee; }
+  .side-title {
+    font-size: 14px; font-weight: 800; color: #2c3e57;
+    letter-spacing: 0.4px; line-height: 1.25; margin-bottom: 4px;
+  }
+  .side-sub {
+    font-size: 11.5px; color: #5d6b80; font-weight: 600;
+    line-height: 1.4; margin-top: 6px;
+  }
+  td.week-side-banner.banner-fixed .side-title { color: #2f4d40; }
+  td.week-side-banner.banner-fixed .side-sub { color: #4a6d5c; }
+  .side-badge {
+    display: inline-block; margin-top: 4px;
+    padding: 2px 8px; background: #a8645c; color: #fff;
+    border-radius: 3px; font-size: 10.5px; font-weight: 800; letter-spacing: 1px;
+  }
+
+  /* 周末两格合并：本周暂无法确定按钮 */
+  td.cell.weekend-pending {
+    background: #fbfbfb;
+    padding: 8px;
+    vertical-align: middle;
+  }
+  .weekend-pending-btn {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 6px; width: 100%; height: 100%; min-height: 124px;
+    background: #ffffff;
+    border: 1.5px dashed #c8c5b8;
+    border-radius: 10px;
+    cursor: pointer; font-family: inherit; padding: 14px 10px;
     transition: all 0.15s;
-    flex: 0 0 auto;
-    box-shadow: 0 2px 0 rgba(200,158,128,0.18);
   }
-  .banner-pending-btn:hover {
-    background: #f3eee2;
+  .weekend-pending-btn:hover {
+    background: #f7f4ec;
+    border-color: #a8956f;
     transform: translateY(-1px);
-    box-shadow: 0 3px 0 rgba(200,158,128,0.28);
   }
-  .banner-pending-btn.pending-active {
-    background: #c89e80;
-    color: #fff;
+  .weekend-pending-btn .wp-row {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .weekend-pending-btn .wp-icon { font-size: 18px; line-height: 1; }
+  .weekend-pending-btn .wp-main {
+    font-size: 14px; font-weight: 800; color: #6b5944; letter-spacing: 0.5px;
+  }
+  .weekend-pending-btn .wp-sub {
+    font-size: 11.5px; color: #8e95a1; font-weight: 600;
+  }
+  /* 勾选框：未勾时虚线棕框，勾选后填充棕色 + 白色对勾 */
+  .weekend-pending-btn .wp-checkbox { width: 18px; height: 18px; flex: 0 0 auto; }
+  .weekend-pending-btn .wp-checkbox .cb-box {
+    fill: #ffffff; stroke: #a8956f; stroke-width: 1.8; stroke-dasharray: 2.5 2;
+  }
+  .weekend-pending-btn .wp-checkbox .cb-tick { display: none; stroke: #ffffff; }
+  .weekend-pending-btn.pending-active {
+    background: #f5efe2;
     border-style: solid;
-    box-shadow: 0 2px 0 rgba(138,106,82,0.4);
+    border-color: #a8956f;
+    box-shadow: 0 0 0 3px rgba(168,149,111,0.18) inset;
   }
-  .banner-pending-btn.pending-active:hover { background: #8a6a52; }
+  .weekend-pending-btn.pending-active .wp-main { color: #5a4a37; }
+  .weekend-pending-btn.pending-active .wp-checkbox .cb-box {
+    fill: #a8956f; stroke: #a8956f; stroke-dasharray: none; stroke-width: 2;
+  }
+  .weekend-pending-btn.pending-active .wp-checkbox .cb-tick { display: block; }
+  .weekend-pending-btn.pending-active .wp-sub::before {
+    content: "✓ "; color: #6b8a73; font-weight: 800;
+  }
 
   td.cell {
-    height: 142px; vertical-align: top;
-    border: 1px solid #ebebed; padding: 6px 6px 5px; background: #ffffff;
+    height: 138px; vertical-align: top;
+    border: 1px solid #ebebed; padding: 7px 7px 6px; background: #ffffff;
   }
-  .day-head { display: flex; align-items: baseline; gap: 6px; margin-bottom: 5px; padding: 0 2px; }
-  .day-num { font-size: 17px; font-weight: 800; color: #3d4853; line-height: 1; }
-  .dow { font-size: 11px; color: #8e95a1; }
+  .day-head { display: flex; align-items: baseline; gap: 6px; margin-bottom: 6px; padding: 0 2px; }
+  .day-num { font-size: 17px; font-weight: 700; color: #1d1d1f; line-height: 1; }
+  .dow { font-size: 11px; color: #86868b; font-weight: 500; }
 
-  td.cell.free { background: #f5f5f3; }
-  td.cell.free .day-num, td.cell.free .dow { color: #b5b9c0; }
-  td.cell.blocked { background: repeating-linear-gradient(45deg, #ededed 0 6px, #f7f8fa 6px 12px); }
-  td.cell.blocked .day-num { color: #8e95a1; }
-  td.cell.blocked .dow { color: #b5b9c0; }
+  td.cell.free { background: #fafafa; }
+  td.cell.free .day-num, td.cell.free .dow { color: #c7c9cc; }
+  td.cell.blocked { background: repeating-linear-gradient(45deg, #f3f3f5 0 6px, #f8f8fa 6px 12px); }
+  td.cell.blocked .day-num { color: #a1a1a6; }
+  td.cell.blocked .dow { color: #c7c9cc; }
   td.cell.blocked .blocked-text {
-    margin-top: 16px; text-align: center; color: #8e95a1;
-    font-size: 13px; font-weight: 700; letter-spacing: 1px; line-height: 1.4;
+    margin-top: 16px; text-align: center; color: #a1a1a6;
+    font-size: 13px; font-weight: 600; letter-spacing: 1px; line-height: 1.4;
   }
-  td.cell.fixed { background: #e8ede9; border: 2px solid #7a958a; }
-  td.cell.fixed .day-num { color: #5a7a6e; }
-  td.cell.fixed .dow { color: #7a958a; font-weight: 600; }
+  td.cell.fixed { background: #f4f7f5; border: 1px solid #c8d4cc; }
+  td.cell.fixed .day-num { color: #3d5a4d; }
+  td.cell.fixed .dow { color: #5a8a72; font-weight: 600; }
   .fixed-body { padding: 0 2px; }
   .opt-row-static { display: flex; align-items: center; gap: 5px; margin-bottom: 3px; }
-  td.cell.pickable { border-width: 2px; border-style: dashed; background: #ffffff; }
-  td.cell.jiang.pickable { border-color: #6b87a3; background: #eef1f4; }
-  td.cell.ban.pickable { border-color: #b38a6e; background: #f5f0e8; }
-  td.cell.both.pickable {
-    border-color: #7d8593;
-    background: linear-gradient(135deg, #eef1f4 0%, #eef1f4 48%, #ffffff 50%, #f5f0e8 52%, #f5f0e8 100%);
+  td.cell.pickable { border-width: 1.5px; border-style: dashed; background: #ffffff; }
+  td.cell.jiang.pickable { border-color: #b3c4d4; background: #f6f9fc; }
+  td.cell.ban.pickable   { border-color: #d4c0a8; background: #fbf7f0; }
+  td.cell.both.pickable  {
+    border-color: #c7c9cc;
+    background: linear-gradient(135deg, #f6f9fc 0%, #f6f9fc 48%, #ffffff 50%, #fbf7f0 52%, #fbf7f0 100%);
   }
-  td.cell.jiang .day-num { color: #4a647d; }
-  td.cell.jiang .dow { color: #6b87a3; font-weight: 600; }
-  td.cell.ban .day-num { color: #7a5a45; }
-  td.cell.ban .dow { color: #b38a6e; font-weight: 600; }
-  td.cell.both .day-num { color: #3d4853; }
+  td.cell.jiang .day-num { color: #3a5670; }
+  td.cell.jiang .dow { color: #5a7d9e; font-weight: 600; }
+  td.cell.ban .day-num { color: #6b5037; }
+  td.cell.ban .dow { color: #a17b5e; font-weight: 600; }
+  td.cell.both .day-num { color: #1d1d1f; }
 
   /* 桌面 opt 按钮 */
   .opt:not(.opt-chip) {
@@ -513,22 +563,22 @@
 
   /* ===== Notes / Reminder / Footer ===== */
   .notes {
-    margin-top: 18px; padding: 12px 16px;
-    background: #eff1f4; border-left: 4px solid #7d99b3; border-radius: 6px;
-    font-size: 13px; line-height: 1.8; color: #3d4853;
+    margin-top: 20px; padding: 14px 18px;
+    background: #f5f7fa; border-left: 3px solid #7d99b3; border-radius: 4px;
+    font-size: 13px; line-height: 1.8; color: #4a5663; font-weight: 500;
   }
-  .notes b { color: #8a6a52; }
-  .notes-title { font-weight: 800; margin-bottom: 4px; color: #3d4853; font-size: 14px; }
+  .notes b { color: #1d1d1f; font-weight: 700; }
+  .notes-title { font-weight: 800; margin-bottom: 4px; color: #1d1d1f; font-size: 14px; }
 
   .reminder {
     margin-top: 16px; padding: 14px 18px;
-    background: linear-gradient(90deg, #f3eee2 0%, #f7f4ec 100%);
-    border: 1.5px dashed #b69e7c; border-radius: 10px; display: none;
+    background: #fbf8f1;
+    border: 1px solid #e8dcc4; border-radius: 10px; display: none;
   }
   .reminder.show { display: block; }
-  .reminder-title { font-size: 14px; font-weight: 800; color: #8a6a52; margin-bottom: 6px; }
-  .reminder-body { font-size: 13px; line-height: 1.75; color: #6a563d; margin-bottom: 10px; }
-  .reminder-body b { color: #8a6a52; }
+  .reminder-title { font-size: 14px; font-weight: 800; color: #6b5944; margin-bottom: 6px; }
+  .reminder-body { font-size: 13px; line-height: 1.75; color: #6e6e73; margin-bottom: 10px; }
+  .reminder-body b { color: #6b5944; }
   .reminder-actions { display: flex; gap: 10px; flex-wrap: wrap; }
   .reminder-btn {
     padding: 7px 14px; background: #c89e80; color: #fff; border: none;
@@ -742,11 +792,6 @@
     .progress-text .num.confirmed,
     .progress-text .num.pending { font-size: 14px; }
 
-    /* 手机端：彻底隐藏「实时摘要」区，避免占位挡住任务卡片；
-       cta-empty-hint 改为始终显示，给加菲姐姐做操作引导 */
-    .summary-area { display: none !important; }
-    .cta-empty-hint { display: block !important; }
-
     .summary-grid { grid-template-columns: 1fr; }
     .sum-card { font-size: 12.5px; padding: 8px 10px; }
     .sum-card .sum-pick { width: 100%; margin-left: 32px; margin-top: 2px; }
@@ -943,7 +988,7 @@
 
   <!-- 桌面端日历 -->
   <div class="calendar-wrap desktop-only">
-    <table class="calendar"><thead><tr class="cal-header"><th class="dow-th">周一</th><th class="dow-th">周二</th><th class="dow-th">周三</th><th class="dow-th">周四</th><th class="dow-th">周五</th><th class="dow-th">周六</th><th class="dow-th">周日</th></tr></thead><tbody><tr class="week-banner-row"><td colspan="7" class="week-banner banner-fixed"><div class="banner-inner"><span class="banner-title">5/4 ~ 5/10</span><span class="banner-sub">✅ 已定一场（无需勾选）</span></div></td></tr><tr><td class="cell free"><div class="day-head"><span class="day-num">4</span><span class="dow">周一</span></div></td><td class="cell free"><div class="day-head"><span class="day-num">5</span><span class="dow">周二</span></div></td><td class="cell free"><div class="day-head"><span class="day-num">6</span><span class="dow">周三</span></div></td><td class="cell free"><div class="day-head"><span class="day-num">7</span><span class="dow">周四</span></div></td><td class="cell free"><div class="day-head"><span class="day-num">8</span><span class="dow">周五</span></div></td><td class="cell fixed"><div class="day-head"><span class="day-num">9</span><span class="dow">周六</span></div>
+    <table class="calendar"><thead><tr class="cal-header"><th class="dow-th week-side-th"></th><th class="dow-th">周一</th><th class="dow-th">周二</th><th class="dow-th">周三</th><th class="dow-th">周四</th><th class="dow-th">周五</th><th class="dow-th">周六</th><th class="dow-th">周日</th></tr></thead><tbody><tr><td class="week-side-banner banner-fixed"><div class="side-title">5/4 ~ 5/10</div><div class="side-sub">✓ 已定一场</div></td><td class="cell free"><div class="day-head"><span class="day-num">4</span><span class="dow">周一</span></div></td><td class="cell free"><div class="day-head"><span class="day-num">5</span><span class="dow">周二</span></div></td><td class="cell free"><div class="day-head"><span class="day-num">6</span><span class="dow">周三</span></div></td><td class="cell free"><div class="day-head"><span class="day-num">7</span><span class="dow">周四</span></div></td><td class="cell free"><div class="day-head"><span class="day-num">8</span><span class="dow">周五</span></div></td><td class="cell fixed"><div class="day-head"><span class="day-num">9</span><span class="dow">周六</span></div>
           <div class="fixed-body">
             <div class="opt-row-static">
               <svg class="checkbox done" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -955,7 +1000,7 @@
             <div class="meta">嘉润花园</div>
             <div class="meta meta-strong">12:00 到场</div>
             <div class="pick-hint hint-done">已定 · 无需勾选</div>
-          </div></td><td class="cell free"><div class="day-head"><span class="day-num">10</span><span class="dow">周日</span></div></td></tr><tr class="week-banner-row"><td colspan="7" class="week-banner banner-pick banner-required"><div class="banner-inner"><span class="required-badge">必选</span><span class="banner-title">5/11 ~ 5/15</span><span class="banner-sub">本周必选 · S5W6 精讲（嘉润）+ S5U3 伴读（国风）· 不能同一天</span></div></td></tr><tr><td class="cell both pickable"><div class="day-head"><span class="day-num">11</span><span class="dow">周一</span></div>
+          </div></td><td class="cell free"><div class="day-head"><span class="day-num">10</span><span class="dow">周日</span></div></td></tr><tr><td class="week-side-banner banner-pick banner-required"><div class="side-title">5/11 ~ 5/15</div><span class="side-badge">必选</span><div class="side-sub">S5W6 精讲 + S5U3 伴读</div></td><td class="cell both pickable"><div class="day-head"><span class="day-num">11</span><span class="dow">周一</span></div>
       <button type="button" class="opt opt-jiang" data-task="W6" data-date="2026-05-11">
         <svg class="checkbox" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
           <rect class="cb-box" x="2" y="2" width="16" height="16" rx="3"/>
@@ -1011,7 +1056,7 @@
         </svg>
         <span class="opt-tag tag-ban">S5U3 伴读</span>
         <span class="opt-sub">国风 · 10:30</span>
-      </button></td><td class="cell free"><div class="day-head"><span class="day-num">16</span><span class="dow">周六</span></div></td><td class="cell free"><div class="day-head"><span class="day-num">17</span><span class="dow">周日</span></div></td></tr><tr class="week-banner-row"><td colspan="7" class="week-banner banner-pick"><div class="banner-inner"><span class="banner-title">5/18 ~ 5/22</span><span class="banner-sub">✍️ 需勾选 1 天 · S5W7 精讲（嘉润）</span><button type="button" class="banner-pending-btn pending-btn" data-task="W7">⏳ 本周暂无法确定</button></div></td></tr><tr><td class="cell jiang pickable"><div class="day-head"><span class="day-num">18</span><span class="dow">周一</span></div>
+      </button></td><td class="cell free"><div class="day-head"><span class="day-num">16</span><span class="dow">周六</span></div></td><td class="cell free"><div class="day-head"><span class="day-num">17</span><span class="dow">周日</span></div></td></tr><tr><td class="week-side-banner banner-pick"><div class="side-title">5/18 ~ 5/22</div><div class="side-sub">S5W7 精讲</div></td><td class="cell jiang pickable"><div class="day-head"><span class="day-num">18</span><span class="dow">周一</span></div>
       <button type="button" class="opt opt-jiang" data-task="W7" data-date="2026-05-18">
         <svg class="checkbox" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
           <rect class="cb-box" x="2" y="2" width="16" height="16" rx="3"/>
@@ -1035,7 +1080,7 @@
         </svg>
         <span class="opt-tag tag-jiang">S5W7 精讲</span>
         <span class="opt-sub">嘉润花园 · 10:30</span>
-      </button></td><td class="cell free"><div class="day-head"><span class="day-num">23</span><span class="dow">周六</span></div></td><td class="cell free"><div class="day-head"><span class="day-num">24</span><span class="dow">周日</span></div></td></tr><tr class="week-banner-row"><td colspan="7" class="week-banner banner-pick"><div class="banner-inner"><span class="banner-title">5/25 ~ 5/29</span><span class="banner-sub">✍️ 需勾选 1 天 · S5W8 精讲（嘉润）</span><button type="button" class="banner-pending-btn pending-btn" data-task="W8">⏳ 本周暂无法确定</button></div></td></tr><tr><td class="cell jiang pickable"><div class="day-head"><span class="day-num">25</span><span class="dow">周一</span></div>
+      </button></td><td class="cell weekend-pending" colspan="2"><button type="button" class="weekend-pending-btn pending-btn" data-task="W7"><span class="wp-row"><svg class="checkbox wp-checkbox" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><rect class="cb-box" x="2" y="2" width="16" height="16" rx="3"/><polyline class="cb-tick" points="6,10.5 9,13.5 14.5,7.5" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="wp-icon">⏳</span><span class="wp-main">本周暂无法确定</span></span><span class="wp-sub">下周再来勾</span></button></td></tr><tr><td class="week-side-banner banner-pick"><div class="side-title">5/25 ~ 5/29</div><div class="side-sub">S5W8 精讲</div></td><td class="cell jiang pickable"><div class="day-head"><span class="day-num">25</span><span class="dow">周一</span></div>
       <button type="button" class="opt opt-jiang" data-task="W8" data-date="2026-05-25">
         <svg class="checkbox" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
           <rect class="cb-box" x="2" y="2" width="16" height="16" rx="3"/>
@@ -1059,7 +1104,7 @@
         </svg>
         <span class="opt-tag tag-jiang">S5W8 精讲</span>
         <span class="opt-sub">嘉润花园 · 10:30</span>
-      </button></td><td class="cell free"><div class="day-head"><span class="day-num">30</span><span class="dow">周六</span></div></td><td class="cell free"><div class="day-head"><span class="day-num">31</span><span class="dow">周日</span></div></td></tr></tbody></table>
+      </button></td><td class="cell weekend-pending" colspan="2"><button type="button" class="weekend-pending-btn pending-btn" data-task="W8"><span class="wp-row"><svg class="checkbox wp-checkbox" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><rect class="cb-box" x="2" y="2" width="16" height="16" rx="3"/><polyline class="cb-tick" points="6,10.5 9,13.5 14.5,7.5" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="wp-icon">⏳</span><span class="wp-main">本周暂无法确定</span></span><span class="wp-sub">下周再来勾</span></button></td></tr></tbody></table>
   </div>
 
   <!-- 待定提醒（桌面+移动通用） -->
@@ -1237,14 +1282,18 @@
       }
     });
 
-    // 桌面 W3/W4 banner 上的大「暂无法确定」按钮
-    document.querySelectorAll(".banner-pending-btn").forEach(btn => {
+    // 桌面 W3/W4 周末两格合并的「本周暂无法确定」按钮
+    document.querySelectorAll(".weekend-pending-btn").forEach(btn => {
       const v = state[btn.dataset.task];
+      const main = btn.querySelector(".wp-main");
+      const sub = btn.querySelector(".wp-sub");
       if (isPending(v)) {
-        btn.textContent = "✓ 已标待定（点这取消）";
+        if (main) main.textContent = "已标记待定";
+        if (sub) sub.textContent = "点这里取消";
         btn.classList.add("pending-active");
       } else {
-        btn.textContent = "⏳ 本周暂无法确定";
+        if (main) main.textContent = "本周暂无法确定";
+        if (sub) sub.textContent = "下周再来勾";
         btn.classList.remove("pending-active");
       }
     });
@@ -1259,8 +1308,6 @@
     document.getElementById("progress-fill-confirmed").style.width = `${(confirmed / total) * 100}%`;
     document.getElementById("progress-fill-pending").style.width = `${(pending / total) * 100}%`;
 
-    // 控制摘要区显隐：勾任意一项后才显示
-    document.getElementById("cta-box").classList.toggle("empty", touched === 0);
 
     // 大复制按钮 — W6/U3 必须已确定才能复制（按钮可点击，会弹提示并滚动到必选区）
     const requiredOk = isDate(state.W6) && isDate(state.U3);
