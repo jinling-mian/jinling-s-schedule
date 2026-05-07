@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2" />
+<title>加菲姐姐 · 5 月拍摄日历（请勾选）</title>
+<meta property="og:title" content="加菲姐姐 · 5 月拍摄日历" />
+<meta property="og:description" content="请在日历里勾选你方便的拍摄日期" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    font-family: "PingFang SC", "Helvetica Neue", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: #f4f6fb;
+    color: #1a2b4a;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 24px 28px 40px;
+    background: #ffffff;
+  }
+
+  .header {
+    text-align: center;
+    padding-bottom: 14px;
+    margin-bottom: 16px;
+    border-bottom: 2px dashed #d8dfec;
+  }
+  .title { font-size: 26px; font-weight: 800; color: #1a2b4a; letter-spacing: 1.5px; }
+  .subtitle { margin-top: 6px; font-size: 13.5px; color: #8a94a6; letter-spacing: 0.8px; }
+
+  /* ===== 顶部进度条（sticky）===== */
+  .progress-bar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: #ffffff;
+    border-bottom: 1px solid #e3e8f1;
+    margin: 0 -28px 16px;
+    padding: 12px 28px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .progress-text {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a2b4a;
+  }
+  .progress-text .num { color: #ff8c1a; font-size: 18px; }
+  .progress-track {
+    flex: 1;
+    height: 8px;
+    background: #eef1f7;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff8c1a 0%, #ffb547 100%);
+    width: 0%;
+    transition: width 0.25s ease;
+    border-radius: 4px;
+  }
+  .copy-btn {
+    flex: 0 0 auto;
+    padding: 8px 16px;
+    background: #1a2b4a;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+    letter-spacing: 0.5px;
+  }
+  .copy-btn:hover { background: #2c4376; }
+  .copy-btn:disabled { background: #b6bdc9; cursor: not-allowed; }
+  .copy-btn.success { background: #1f9d57; }
+
+  /* ===== CTA + 实时摘要 ===== */
+  .cta-box {
+    margin-bottom: 18px;
+    padding: 14px 18px;
+    background: linear-gradient(90deg, #fff7e6 0%, #fffaef 100%);
+    border: 2px solid #ffb547;
+    border-radius: 12px;
+  }
+  .cta-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 800;
+    color: #8a4d00;
+    margin-bottom: 10px;
+  }
+  .cta-title .pin {
+    padding: 2px 10px;
+    background: #ff8c1a;
+    color: #fff;
+    border-radius: 12px;
+    font-size: 12.5px;
+    font-weight: 800;
+    letter-spacing: 1px;
+  }
+  .summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .sum-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    background: #ffffff;
+    border-radius: 8px;
+    border: 1.5px dashed #ffb547;
+    font-size: 13px;
+  }
+  .sum-card .num {
+    width: 22px; height: 22px; line-height: 22px; text-align: center;
+    background: #c0c4cc; color: #fff; border-radius: 50%;
+    font-size: 12px; font-weight: 800; flex: 0 0 auto;
+    transition: background 0.2s;
+  }
+  .sum-card.done .num { background: #1f9d57; }
+  .sum-card .sum-label { color: #1a2b4a; font-weight: 700; flex: 0 0 auto; }
+  .sum-card .sum-label.jiang { color: #2c5cdc; }
+  .sum-card .sum-label.ban { color: #ff6b1a; }
+  .sum-card .sum-pick {
+    color: #8a94a6;
+    font-weight: 600;
+    margin-left: auto;
+  }
+  .sum-card.done .sum-pick { color: #1f9d57; font-weight: 800; }
+  .sum-card .sum-pick .clear {
+    margin-left: 8px;
+    background: none;
+    border: none;
+    color: #8a94a6;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 0 4px;
+    text-decoration: underline;
+  }
+
+  .conflict-warning {
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: #ffebeb;
+    border-left: 3px solid #e74c3c;
+    border-radius: 4px;
+    color: #c0392b;
+    font-size: 13px;
+    font-weight: 700;
+    display: none;
+  }
+  .conflict-warning.show { display: block; }
+
+  /* ===== Legend ===== */
+  .legend {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 14px;
+    padding: 8px 12px;
+    background: #fafbfd;
+    border-radius: 8px;
+    font-size: 12px;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; color: #4a5568; font-weight: 600; }
+  .swatch { width: 16px; height: 16px; border-radius: 3px; border: 1.5px solid transparent; }
+  .swatch.jiang { background: #f0f5ff; border: 1.5px dashed #2c5cdc; }
+  .swatch.ban   { background: #fff5ec; border: 1.5px dashed #ff6b1a; }
+  .swatch.fixed { background: #1f9d57; border-color: #1f9d57; }
+  .swatch.blocked { background: repeating-linear-gradient(45deg, #e5e7eb 0 4px, #f3f4f6 4px 8px); border-color: #c0c4cc; }
+  .swatch.selected { background: #1f9d57; border-color: #0a6a3a; }
+
+  /* ===== Calendar ===== */
+  .calendar-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table.calendar {
+    width: 100%;
+    min-width: 980px;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(26,43,74,0.06);
+  }
+  table.calendar thead .dow-th {
+    background: #1a2b4a; color: #fff; padding: 9px 0;
+    font-size: 13px; font-weight: 700; letter-spacing: 1px; text-align: center;
+  }
+  tr.week-banner-row td.week-banner {
+    padding: 9px 16px; font-size: 12.5px;
+    border-top: 1px solid #e3e8f1; border-bottom: 1px solid #e3e8f1;
+  }
+  td.week-banner.banner-pick { background: linear-gradient(90deg, #fff7e6 0%, #fffdf6 100%); }
+  td.week-banner.banner-fixed { background: #f0fbf5; }
+  .banner-title { font-weight: 800; color: #1a2b4a; margin-right: 12px; font-size: 13px; }
+  .banner-sub { color: #8a4d00; font-weight: 700; font-size: 12.5px; }
+  td.week-banner.banner-fixed .banner-sub { color: #0a6a3a; }
+
+  td.cell {
+    height: 142px;
+    vertical-align: top;
+    border: 1px solid #eef1f7;
+    padding: 6px 6px 5px;
+    background: #ffffff;
+  }
+  .day-head { display: flex; align-items: baseline; gap: 6px; margin-bottom: 5px; padding: 0 2px; }
+  .day-num { font-size: 17px; font-weight: 800; color: #1a2b4a; line-height: 1; }
+  .dow { font-size: 11px; color: #8a94a6; }
+
+  td.cell.free { background: #fafbfd; }
+  td.cell.free .day-num, td.cell.free .dow { color: #b6bdc9; }
+
+  td.cell.blocked { background: repeating-linear-gradient(45deg, #f0f1f4 0 6px, #f7f8fa 6px 12px); }
+  td.cell.blocked .day-num { color: #8a94a6; }
+  td.cell.blocked .dow { color: #b6bdc9; }
+  td.cell.blocked .blocked-text {
+    margin-top: 16px; text-align: center; color: #8a94a6;
+    font-size: 13px; font-weight: 700; letter-spacing: 1px; line-height: 1.4;
+  }
+
+  td.cell.fixed { background: #e6f7ee; border: 2px solid #1f9d57; }
+  td.cell.fixed .day-num { color: #0a6a3a; }
+  td.cell.fixed .dow { color: #1f9d57; font-weight: 600; }
+  .fixed-body { padding: 0 2px; }
+  .opt-row-static { display: flex; align-items: center; gap: 5px; margin-bottom: 3px; }
+
+  td.cell.pickable { border-width: 2px; border-style: dashed; background: #ffffff; }
+  td.cell.jiang.pickable { border-color: #2c5cdc; background: #f7faff; }
+  td.cell.ban.pickable { border-color: #ff6b1a; background: #fffaf3; }
+  td.cell.both.pickable {
+    border-color: #6c7a93;
+    background: linear-gradient(135deg, #f7faff 0%, #f7faff 48%, #ffffff 50%, #fffaf3 52%, #fffaf3 100%);
+  }
+
+  td.cell.jiang .day-num { color: #1a3a8a; }
+  td.cell.jiang .dow { color: #2c5cdc; font-weight: 600; }
+  td.cell.ban .day-num { color: #8a3a0a; }
+  td.cell.ban .dow { color: #ff6b1a; font-weight: 600; }
+  td.cell.both .day-num { color: #1a2b4a; }
+
+  /* ===== 选项按钮 ===== */
+  .opt {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+    padding: 5px 6px;
+    border: 1.5px solid transparent;
+    border-radius: 6px;
+    background: transparent;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s;
+    margin-bottom: 2px;
+    font-family: inherit;
+  }
+  .opt:hover:not(:disabled) {
+    background: rgba(255,255,255,0.85);
+    border-color: rgba(0,0,0,0.08);
+  }
+  .opt:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  .checkbox { flex: 0 0 auto; width: 18px; height: 18px; }
+  .checkbox .cb-box { fill: #ffffff; stroke-width: 1.8; stroke-dasharray: 2.5 2; }
+  .checkbox .cb-tick { display: none; stroke: #ffffff; }
+  .opt-jiang .checkbox .cb-box { stroke: #2c5cdc; }
+  .opt-ban   .checkbox .cb-box { stroke: #ff6b1a; }
+
+  .opt.selected .checkbox .cb-box {
+    fill: currentColor;
+    stroke-dasharray: none;
+    stroke-width: 2;
+  }
+  .opt.selected .checkbox .cb-tick { display: block; }
+  .opt-jiang.selected .checkbox .cb-box { fill: #2c5cdc; stroke: #2c5cdc; }
+  .opt-ban.selected   .checkbox .cb-box { fill: #ff6b1a; stroke: #ff6b1a; }
+
+  .opt-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #fff;
+    flex: 0 0 auto;
+  }
+  .tag-jiang { background: #2c5cdc; }
+  .tag-ban { background: #ff6b1a; }
+  .tag-fixed { background: #1f9d57; }
+  .opt-sub {
+    flex: 1; min-width: 0;
+    font-size: 11px;
+    color: #4a5568;
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .opt.selected {
+    background: rgba(255,255,255,0.95);
+    border-color: currentColor;
+    box-shadow: 0 2px 0 0 rgba(0,0,0,0.04);
+  }
+  .opt-jiang.selected { color: #2c5cdc; }
+  .opt-ban.selected   { color: #ff6b1a; }
+
+  .meta { font-size: 11px; color: #4a5568; line-height: 1.5; padding: 0 4px 0 28px; }
+  .meta-strong { font-weight: 700; color: #c4530a; }
+  .or-line {
+    text-align: center; font-size: 10px; color: #8a94a6;
+    margin: 3px 0 2px; font-weight: 700; letter-spacing: 1px;
+  }
+  .pick-hint {
+    margin-top: 5px; font-size: 11px; font-weight: 700;
+    text-align: center; padding: 3px 6px; border-radius: 4px;
+  }
+  .hint-done { color: #0a6a3a; background: #d2f0e0; }
+
+  /* selected-stamp */
+  td.cell .selected-stamp {
+    margin: 5px 4px 0;
+    padding: 3px 8px;
+    background: linear-gradient(90deg, #1f9d57 0%, #2bc878 100%);
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 800;
+    text-align: center;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+    display: none;
+  }
+  td.cell.has-selection .selected-stamp { display: block; }
+
+  /* ===== Notes / Footer ===== */
+  .notes {
+    margin-top: 18px; padding: 12px 16px;
+    background: #f8faff; border-left: 4px solid #4f7df0; border-radius: 6px;
+    font-size: 13px; line-height: 1.8; color: #2c3e50;
+  }
+  .notes b { color: #c4530a; }
+  .notes-title { font-weight: 800; margin-bottom: 4px; color: #1a2b4a; font-size: 14px; }
+  .footer { margin-top: 16px; text-align: center; font-size: 12px; color: #8a94a6; }
+
+  /* ===== Toast ===== */
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: #1a2b4a;
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 24px;
+    font-size: 14px;
+    font-weight: 700;
+    transition: transform 0.3s ease;
+    z-index: 100;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.18);
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast.success { background: #1f9d57; }
+
+  /* ===== Mobile ===== */
+  @media (max-width: 760px) {
+    .page { padding: 16px 12px 30px; }
+    .progress-bar { margin: 0 -12px 12px; padding: 10px 12px; gap: 8px; flex-wrap: wrap; }
+    .progress-text { font-size: 13px; }
+    .progress-text .num { font-size: 15px; }
+    .copy-btn { padding: 6px 12px; font-size: 12px; }
+    .summary-grid { grid-template-columns: 1fr; }
+    .title { font-size: 22px; }
+    .legend { font-size: 11px; gap: 8px; }
+    table.calendar { min-width: 1100px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="title">加菲姐姐 · 5 月拍摄日历</div>
+    <div class="subtitle">5/4 ~ 5/31 · 共 4 周 · 请勾选你方便的拍摄日期</div>
+  </div>
+
+  <!-- Sticky 进度条 -->
+  <div class="progress-bar">
+    <span class="progress-text">已勾选 <span class="num" id="progress-num">0</span> / 4</span>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <button class="copy-btn" id="copy-btn" disabled>📋 复制结果</button>
+  </div>
+
+  <!-- 摘要 / CTA -->
+  <div class="cta-box">
+    <div class="cta-title"><span class="pin">需勾选 4 天</span>实时摘要（点日历里的格子勾选）</div>
+    <div class="summary-grid" id="summary-grid">
+      <div class="sum-card" data-task="W6">
+        <span class="num">1</span>
+        <span class="sum-label jiang">S5W6 精讲</span>
+        <span class="sum-pick">未选 · 5/11、5/13、5/15</span>
+      </div>
+      <div class="sum-card" data-task="U3">
+        <span class="num">2</span>
+        <span class="sum-label ban">S5U3 伴读</span>
+        <span class="sum-pick">未选 · 5/11、5/12、5/14、5/15</span>
+      </div>
+      <div class="sum-card" data-task="W7">
+        <span class="num">3</span>
+        <span class="sum-label jiang">S5W7 精讲</span>
+        <span class="sum-pick">未选 · 5/18、5/20、5/22</span>
+      </div>
+      <div class="sum-card" data-task="W8">
+        <span class="num">4</span>
+        <span class="sum-label jiang">S5W8 精讲</span>
+        <span class="sum-pick">未选 · 5/25、5/27、5/29</span>
+      </div>
+    </div>
+    <div class="conflict-warning" id="conflict-warning">
+      ⚠️ S5W6 精讲 和 S5U3 伴读 不能选同一天，请重新选择
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><span class="swatch fixed"></span>已定</div>
+    <div class="legend-item"><span class="swatch jiang"></span>可选 · 精讲</div>
+    <div class="legend-item"><span class="swatch ban"></span>可选 · 伴读</div>
+    <div class="legend-item"><span class="swatch selected"></span>已勾选</div>
+    <div class="legend-item"><span class="swatch blocked"></span>不安排</div>
+  </div>
+
+  <div class="calendar-wrap">
+    <table class="calendar"><thead><tr class="cal-header"><th class="dow-th">周一</th><th class="dow-th">周二</th><th class="dow-th">周三</th><th class="dow-th">周四</th><th class="dow-th">周五</th><th class="dow-th">周六</th><th class="dow-th">周日</th></tr></thead><tbody><tr class="week-banner-row"><td colspan="7" class="week-banner banner-fixed"><span class="banner-title">W1 · 5/4 ~ 5/10</span><span class="banner-sub">✅ 已定一场（无需勾选）</span></td></tr><tr><td class="cell free"><div class="day-head"><span class="day-num">4</span><span class="dow">周一</span></div></td><td class="cell free"><div class="day-head"><span class="day-num">5</span><span class="dow">周二</span></div></td><td class="cell free"><div class="day-head"><span class="day-num">6</span><span class="dow">周三</span></div></td><td class="cell free"><div class="day-head"><span class="day-num">7</span><span class="dow">周四</span></div></td><td class="cell free"><div class="day-head"><span class="day-num">8</span><span class="dow">周五</span></div></td><td class="cell fixed"><div class="day-head"><span class="day-num">9</span><span class="dow">周六</span></div>
+          <div class="fixed-body">
+            <div class="opt-row-static">
+              <svg class="checkbox done" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="2" width="16" height="16" rx="3" fill="#1f9d57" stroke="#1f9d57" stroke-width="1.8"/>
+                <polyline points="6,10.5 9,13.5 14.5,7.5" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span class="opt-tag tag-fixed">S5W5 精讲课</span>
+            </div>
+            <div class="meta">嘉润花园</div>
+            <div class="meta meta-strong">12:00 到场</div>
+            <div class="pick-hint hint-done">已定 · 无需勾选</div>
+          </div></td><td class="cell free"><div class="day-head"><span class="day-num">10</span><span class="dow">周日</span></div></td></tr><tr class="week-banner-row"><td colspan="7" class="week-banner banner-pick"><span class="banner-title">W2 · 5/11 ~ 5/15</span><span class="banner-sub">✍️ 需勾选 2 天 · S5W6 精讲（嘉润）+ S5U3 伴读（国风）· 不能同一天</span></td></tr><tr><td class="cell both pickable"><div class="day-head"><span class="day-num">11</span><span class="dow">周一</span></div>
+      <button type="button" class="opt opt-jiang" data-task="W6" data-date="2026-05-11" data-label="S5W6 精讲">
+        <svg class="checkbox" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <rect class="cb-box" x="2" y="2" width="16" height="16" rx="3"/>
+          <polyline class="cb-tick" points="6,10.5 9,13.5 14.5,7.5" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="opt-tag tag-jiang">S5W6 精讲</span>
+        <span class="opt-sub">嘉润花园 · 10:30</span>
+      </button><div class="or-line">— 或 —</div>
+      <button type="button" class="opt opt-ban" data-task="U3" data-date="2026-05-11" data-label="S5U3 伴读">
+        <svg class="checkbox" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <rect class="cb-box" x="2" y="2" width="16" height="16" rx="3"/>
+          <polyline class="cb-tick" points="6,10.5 9,13.5 14.5,7.5" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="opt-tag tag-ban">S5U3 伴读</span>
+        <span class="opt-sub">国风 · 10:30</span>
+      </button></td><td class="cell ban pickable"><div class="day-head"><span class="day-num">12</span><span class="dow">周二</span></div>
+      <button type="button" class="opt opt-ban" data-task="U3" data-date="2026-05-12" data-label="S5U3 伴读">
+        <svg class="checkbox" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <rect class="cb-box" x="2" y="2" width="16" height="16" rx="3"/>
+          <polyline class="cb-tick" points="6,10.5 9,13.5 14.5,7.5" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="opt-tag tag-ban">S5U3 伴读</span>
+        <span class="opt-sub">国风（20 集）· 10:30</span>
+      </button></td><td class="cell jiang pickable"><div class="day-head"><span class="day-num">13</span><span class="dow">周三</span></div>
+      <button type="button" class="opt opt-jiang" data-task="W6" data-date="2026-05-13" data-label="S5W6 精讲">
+        <svg class="checkbox" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <rect class="cb-box" x="2" y="2" width="16" height="16" rx="3"/>
+          <polyline class="cb-tick" points="6,10.5 9,13.5 14.5,7.5" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="opt-tag tag-jiang">S5W6 精讲</span>
+        <span class="opt-sub">嘉润花园 · 10:30</span>
+      </button></td><td class="cell ban pickable"><div class="day-head"><span class="day-num">14</span><span class="dow">周四</span></div>
+      <button type="button" class="opt opt-ban" data-task="U3" data-date="2026-05-14" data-label="S5U3 伴读">
+        <svg class="checkbox" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <rect class="cb-box" x="2" y="2" width="16" height="16" rx="3"/>
+          <polyline class="cb-tick" points="6,10.5 9,13.5 14.5,7.5" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="opt-tag tag-ban">S5U3 伴读</span>
+        <span class="opt-sub">国风（20 集）· 10:30</span>
+      </button></td><td class="cell both pickable"><div class="day-head"><span class="day-num">15</span><span class="dow">周五</span></div>
+      <button type="button" class="opt opt-jiang" data-task="W6" data-date="2026-05-15" data-label="S5W6 精讲">
+        <svg class="checkbox" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <rect class="cb-box" x="2" y="2" width="16" height="16" rx="3"/>
+          <polyline class="cb-tick" points="6,10.5 9,13.5 14.5,7.5" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="opt-tag tag-jiang">S5W6 精讲</span>
+        <span class="opt-sub">嘉润花园 · 10:30</span>
+      </button><div class="or-line">— 或 —</div>
+      <button type="button" class="opt opt-ban" data-task="U3" data-date="2026-05-15" data-label="S5U3 伴读">
+        <svg class="checkbox" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <rect class="cb-box" x="2" y="2" width="16" height="16" rx="3"/>
+          <polyline class="cb-tick" points="6,10.5 9,13.5 14.5,7.5" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="opt-tag tag-ban">S5U3 伴读</span>
+        <span class="opt-sub">国风 · 10:30</span>
+      </button></td><td class="cell free"><div class="day-head"><span class="day-num">16</span><span class="dow">周六</span></div></td><td class="cell free"><div class="day-head"><span class="day-num">17</span><span class="dow">周日</span></div></td></tr><tr class="week-banner-row"><td colspan="7" class="week-banner banner-pick"><span class="banner-title">W3 · 5/18 ~ 5/22</span><span class="banner-sub">✍️ 需勾选 1 天 · S5W7 精讲（嘉润）</span></td></tr><tr><td class="cell jiang pickable"><div class="day-head"><span class="day-num">18</span><span class="dow">周一</span></div>
+      <button type="button" class="opt opt-jiang" data-task="W7" data-date="2026-05-18" data-label="S5W7 精讲">
+        <svg class="checkbox" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <rect class="cb-box" x="2" y="2" width="16" height="16" rx="3"/>
+          <polyline class="cb-tick" points="6,10.5 9,13.5 14.5,7.5" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="opt-tag tag-jiang">S5W7 精讲</span>
+        <span class="opt-sub">嘉润花园 · 10:30</span>
+      </button></td><td class="cell blocked"><div class="day-head"><span class="day-num">19</span><span class="dow">周二</span></div><div class="blocked-text">×<br>不排</div></td><td class="cell jiang pickable"><div class="day-head"><span class="day-num">20</span><span class="dow">周三</span></div>
+      <button type="button" class="opt opt-jiang" data-task="W7" data-date="2026-05-20" data-label="S5W7 精讲">
+        <svg class="checkbox" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <rect class="cb-box" x="2" y="2" width="16" height="16" rx="3"/>
+          <polyline class="cb-tick" points="6,10.5 9,13.5 14.5,7.5" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="opt-tag tag-jiang">S5W7 精讲</span>
+        <span class="opt-sub">嘉润花园 · 10:30</span>
+      </button></td><td class="cell blocked"><div class="day-head"><span class="day-num">21</span><span class="dow">周四</span></div><div class="blocked-text">×<br>不排</div></td><td class="cell jiang pickable"><div class="day-head"><span class="day-num">22</span><span class="dow">周五</span></div>
+      <button type="button" class="opt opt-jiang" data-task="W7" data-date="2026-05-22" data-label="S5W7 精讲">
+        <svg class="checkbox" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <rect class="cb-box" x="2" y="2" width="16" height="16" rx="3"/>
+          <polyline class="cb-tick" points="6,10.5 9,13.5 14.5,7.5" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="opt-tag tag-jiang">S5W7 精讲</span>
+        <span class="opt-sub">嘉润花园 · 10:30</span>
+      </button></td><td class="cell free"><div class="day-head"><span class="day-num">23</span><span class="dow">周六</span></div></td><td class="cell free"><div class="day-head"><span class="day-num">24</span><span class="dow">周日</span></div></td></tr><tr class="week-banner-row"><td colspan="7" class="week-banner banner-pick"><span class="banner-title">W4 · 5/25 ~ 5/29</span><span class="banner-sub">✍️ 需勾选 1 天 · S5W8 精讲（嘉润）</span></td></tr><tr><td class="cell jiang pickable"><div class="day-head"><span class="day-num">25</span><span class="dow">周一</span></div>
+      <button type="button" class="opt opt-jiang" data-task="W8" data-date="2026-05-25" data-label="S5W8 精讲">
+        <svg class="checkbox" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <rect class="cb-box" x="2" y="2" width="16" height="16" rx="3"/>
+          <polyline class="cb-tick" points="6,10.5 9,13.5 14.5,7.5" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="opt-tag tag-jiang">S5W8 精讲</span>
+        <span class="opt-sub">嘉润花园 · 10:30</span>
+      </button></td><td class="cell blocked"><div class="day-head"><span class="day-num">26</span><span class="dow">周二</span></div><div class="blocked-text">×<br>不排</div></td><td class="cell jiang pickable"><div class="day-head"><span class="day-num">27</span><span class="dow">周三</span></div>
+      <button type="button" class="opt opt-jiang" data-task="W8" data-date="2026-05-27" data-label="S5W8 精讲">
+        <svg class="checkbox" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <rect class="cb-box" x="2" y="2" width="16" height="16" rx="3"/>
+          <polyline class="cb-tick" points="6,10.5 9,13.5 14.5,7.5" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="opt-tag tag-jiang">S5W8 精讲</span>
+        <span class="opt-sub">嘉润花园 · 10:30</span>
+      </button></td><td class="cell blocked"><div class="day-head"><span class="day-num">28</span><span class="dow">周四</span></div><div class="blocked-text">×<br>不排</div></td><td class="cell jiang pickable"><div class="day-head"><span class="day-num">29</span><span class="dow">周五</span></div>
+      <button type="button" class="opt opt-jiang" data-task="W8" data-date="2026-05-29" data-label="S5W8 精讲">
+        <svg class="checkbox" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <rect class="cb-box" x="2" y="2" width="16" height="16" rx="3"/>
+          <polyline class="cb-tick" points="6,10.5 9,13.5 14.5,7.5" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="opt-tag tag-jiang">S5W8 精讲</span>
+        <span class="opt-sub">嘉润花园 · 10:30</span>
+      </button></td><td class="cell free"><div class="day-head"><span class="day-num">30</span><span class="dow">周六</span></div></td><td class="cell free"><div class="day-head"><span class="day-num">31</span><span class="dow">周日</span></div></td></tr></tbody></table>
+  </div>
+
+  <div class="notes">
+    <div class="notes-title">📌 几点说明</div>
+    1. <b>每场拍摄 1 天即可</b>，到场时间均为 <b>10:30</b>（仅 5/9 W5 是 12:00）<br>
+    2. <b>W2（5/11 ~ 5/15）</b>：S5W6 精讲（嘉润）和 S5U3 伴读（国风）必须各选 1 天，<b>不能同一天</b>；伴读 20 集，建议 1 天拍完<br>
+    3. <b>W3 / W4</b>：精讲课周二、周四不安排<br>
+    4. 周末和当周空白工作日均不安排
+  </div>
+
+  <div class="footer">勾选完后点击右上角「复制结果」，把内容粘贴到微信发回即可 ❤️</div>
+</div>
+
+<div class="toast" id="toast">已复制到剪贴板</div>
+
+<script>
+  const TASKS = {"W6": {"label": "S5W6 精讲", "place": "嘉润花园", "time": "10:30 到场", "color": "jiang"}, "U3": {"label": "S5U3 伴读", "place": "国风（20 集）", "time": "10:30 到场", "color": "ban"}, "W7": {"label": "S5W7 精讲", "place": "嘉润花园", "time": "10:30 到场", "color": "jiang"}, "W8": {"label": "S5W8 精讲", "place": "嘉润花园", "time": "10:30 到场", "color": "jiang"}};
+  const TASK_ORDER = ["W6", "U3", "W7", "W8"];
+  const STORAGE_KEY = "jiafei-schedule-v1";
+
+  const state = { W6: null, U3: null, W7: null, W8: null };
+
+  // ---------- 持久化 ----------
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) Object.assign(state, JSON.parse(saved));
+  } catch (e) {}
+
+  function persist() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+  }
+
+  // ---------- 工具 ----------
+  function fmtDate(iso) {
+    if (!iso) return "";
+    const [y, m, d] = iso.split("-").map(Number);
+    const dt = new Date(y, m - 1, d);
+    const wd = ["日", "一", "二", "三", "四", "五", "六"][dt.getDay()];
+    return `${m}/${d} 周${wd}`;
+  }
+
+  // ---------- 渲染 ----------
+  function render() {
+    // 清空所有 cell 的选中状态
+    document.querySelectorAll("td.cell.has-selection").forEach(td => {
+      td.classList.remove("has-selection");
+      const stamp = td.querySelector(".selected-stamp");
+      if (stamp) stamp.remove();
+    });
+    document.querySelectorAll(".opt.selected").forEach(b => b.classList.remove("selected"));
+
+    // 标记选中
+    Object.entries(state).forEach(([task, iso]) => {
+      if (!iso) return;
+      const btn = document.querySelector(`.opt[data-task="${task}"][data-date="${iso}"]`);
+      if (btn) {
+        btn.classList.add("selected");
+        const td = btn.closest("td.cell");
+        if (td && !td.classList.contains("has-selection")) {
+          td.classList.add("has-selection");
+          const stamp = document.createElement("div");
+          stamp.className = "selected-stamp";
+          stamp.textContent = `✓ 已选：${TASKS[task].label}`;
+          td.appendChild(stamp);
+        }
+      }
+    });
+
+    // 摘要
+    document.querySelectorAll(".sum-card").forEach(card => {
+      const task = card.dataset.task;
+      const pickEl = card.querySelector(".sum-pick");
+      if (state[task]) {
+        card.classList.add("done");
+        pickEl.innerHTML = `✓ ${fmtDate(state[task])} · ${TASKS[task].place}` +
+          ` <button class="clear" data-task="${task}">取消</button>`;
+      } else {
+        card.classList.remove("done");
+        const opts = {
+          W6: "5/11、5/13、5/15",
+          U3: "5/11、5/12、5/14、5/15",
+          W7: "5/18、5/20、5/22",
+          W8: "5/25、5/27、5/29"
+        };
+        pickEl.textContent = `未选 · ${opts[task]}`;
+      }
+    });
+
+    // 进度
+    const count = TASK_ORDER.filter(t => state[t]).length;
+    document.getElementById("progress-num").textContent = count;
+    document.getElementById("progress-fill").style.width = `${(count / 4) * 100}%`;
+    const btn = document.getElementById("copy-btn");
+    btn.disabled = count === 0;
+    btn.classList.remove("success");
+    btn.textContent = count === 4 ? "📋 全选完成 · 复制结果" : "📋 复制当前结果";
+
+    persist();
+  }
+
+  // ---------- 选中 / 取消 ----------
+  function selectOption(task, iso, btn) {
+    // 校验：W6 与 U3 不能同一天
+    let conflict = false;
+    if (task === "W6" && state.U3 === iso) conflict = true;
+    if (task === "U3" && state.W6 === iso) conflict = true;
+    if (conflict) {
+      const w = document.getElementById("conflict-warning");
+      w.classList.add("show");
+      setTimeout(() => w.classList.remove("show"), 4000);
+      return;
+    }
+
+    if (state[task] === iso) {
+      state[task] = null;  // 再次点击 → 取消
+    } else {
+      state[task] = iso;
+    }
+    render();
+  }
+
+  // ---------- 事件 ----------
+  document.querySelectorAll(".opt").forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.preventDefault();
+      const task = btn.dataset.task;
+      const iso = btn.dataset.date;
+      selectOption(task, iso, btn);
+    });
+  });
+
+  document.getElementById("summary-grid").addEventListener("click", e => {
+    const t = e.target;
+    if (t.classList.contains("clear")) {
+      state[t.dataset.task] = null;
+      render();
+    }
+  });
+
+  // ---------- 复制结果 ----------
+  function buildCopyText() {
+    const lines = ["加菲姐姐 5 月拍摄日程确认："];
+    lines.push("");
+    lines.push("· S5W5 精讲：5/9 周六 12:00 到场 @ 嘉润花园（已定）");
+    TASK_ORDER.forEach(t => {
+      if (state[t]) {
+        lines.push(`· ${TASKS[t].label}：${fmtDate(state[t])} ${TASKS[t].time} @ ${TASKS[t].place}`);
+      } else {
+        lines.push(`· ${TASKS[t].label}：[未选]`);
+      }
+    });
+    return lines.join("\n");
+  }
+
+  function showToast(msg, kind) {
+    const t = document.getElementById("toast");
+    t.textContent = msg;
+    t.className = "toast show" + (kind ? " " + kind : "");
+    setTimeout(() => t.classList.remove("show"), 2500);
+  }
+
+  document.getElementById("copy-btn").addEventListener("click", async () => {
+    const text = buildCopyText();
+    try {
+      await navigator.clipboard.writeText(text);
+      showToast("✅ 已复制，去微信粘贴发送即可", "success");
+      const btn = document.getElementById("copy-btn");
+      btn.classList.add("success");
+      btn.textContent = "✅ 已复制 · 可再点复制";
+    } catch (e) {
+      // fallback
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand("copy"); showToast("✅ 已复制", "success"); }
+      catch (_e) { showToast("复制失败，请长按选中"); }
+      document.body.removeChild(ta);
+    }
+  });
+
+  render();
+</script>
+</body>
+</html>
